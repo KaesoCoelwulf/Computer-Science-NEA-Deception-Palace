@@ -50,6 +50,16 @@ namespace DeceptionPalace
             buttonArray[7] = btnToTarget8;
             buttonArray[8] = btnToTarget9;
 
+            for(int i = 0; i<9; i++)
+            {
+                picBoxArray[i].Image = Properties.Resources.testImage;
+            }
+
+        }
+
+        private void btnToTarget1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

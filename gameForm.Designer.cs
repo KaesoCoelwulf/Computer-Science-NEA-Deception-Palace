@@ -34,8 +34,8 @@ namespace DeceptionPalace
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainGameForm));
             this.eventLog1 = new System.Diagnostics.EventLog();
             this.boxPlayer1 = new System.Windows.Forms.GroupBox();
-            this.playerSprite1 = new System.Windows.Forms.PictureBox();
             this.btnToTarget1 = new System.Windows.Forms.Button();
+            this.playerSprite1 = new System.Windows.Forms.PictureBox();
             this.boxPlayer2 = new System.Windows.Forms.GroupBox();
             this.btnToTarget2 = new System.Windows.Forms.Button();
             this.playerSprite2 = new System.Windows.Forms.PictureBox();
@@ -104,14 +104,6 @@ namespace DeceptionPalace
             this.boxPlayer1.TabStop = false;
             this.boxPlayer1.Text = "Player 1";
             // 
-            // playerSprite1
-            // 
-            this.playerSprite1.Location = new System.Drawing.Point(6, 19);
-            this.playerSprite1.Name = "playerSprite1";
-            this.playerSprite1.Size = new System.Drawing.Size(150, 150);
-            this.playerSprite1.TabIndex = 0;
-            this.playerSprite1.TabStop = false;
-            // 
             // btnToTarget1
             // 
             this.btnToTarget1.BackColor = System.Drawing.Color.Black;
@@ -121,6 +113,15 @@ namespace DeceptionPalace
             this.btnToTarget1.TabIndex = 1;
             this.btnToTarget1.Text = "Use Ability ";
             this.btnToTarget1.UseVisualStyleBackColor = false;
+            this.btnToTarget1.Click += new System.EventHandler(this.btnToTarget1_Click);
+            // 
+            // playerSprite1
+            // 
+            this.playerSprite1.Location = new System.Drawing.Point(6, 19);
+            this.playerSprite1.Name = "playerSprite1";
+            this.playerSprite1.Size = new System.Drawing.Size(150, 150);
+            this.playerSprite1.TabIndex = 0;
+            this.playerSprite1.TabStop = false;
             // 
             // boxPlayer2
             // 
@@ -506,6 +507,5 @@ namespace DeceptionPalace
         private System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
         private System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
 
-        groupBoxArray 
     }
 }
