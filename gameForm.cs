@@ -50,10 +50,13 @@ namespace DeceptionPalace
             buttonArray[7] = btnToTarget8;
             buttonArray[8] = btnToTarget9;
 
-            for(int i = 0; i<9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                picBoxArray[i].Image = Properties.Resources.testImage;
+                groupBoxArray[i].Text = gamePlayed.getPlayer(i);//initialising the display of each player's username
+                picBoxArray[i].Image = gamePlayed.getSprite(i, gamePlayed.getALIVEINDEX());//initialising each player's sprite
             }
+
+            //MessageBox.Show("1: " + gamePlayed.getPlayer(0) + ": " + gamePlayed.getRole(0) + " " + gamePlayed.getFac(0) + " " + gamePlayed.getAliveStatus(0));
 
         }
 

@@ -13,7 +13,7 @@ namespace DeceptionPalace
         private string[] arrPlayers = new string[12];//array of players' usernames in order to match their corresponding role in arrRoles
         private Role[] arrRoles = new Role[12];//array of the corresponding roles in index positions to arrPlayers
         private int[,] arrStats = new int[2, 2];//for future iterations holds the stat changes to be processed in gameEnd
-        private string[,] arrSprites = new string[2, 12];//for future iterations holds corresponding player's sprite preference
+        private System.Drawing.Bitmap[,] arrSprites = new System.Drawing.Bitmap[2, 12];//for future iterations holds corresponding player's sprite preference
         private int BLOCKERNO;//constant that holds the number indicating a user has been blocked in targets[]
         private int WININDEX;//constant for the index of winning players in arrStats
         private int LOSTINDEX;//constant for the index of losing players in arrStats
@@ -55,6 +55,31 @@ namespace DeceptionPalace
         private string hostUser;//for future iterations, the name of the user who is hosting the game
         private Form gameForm;//the form which games occur in
 
+        //method below simply returns ALIVEINDEX for game initialising purposes
+        public int getALIVEINDEX() { return ALIVEINDEX; }
+
+        public string getRole(int playerIndex) { return arrRoles[playerIndex].getRole(); }
+        //above method returns the string of the player's role
+
+        //below method returns the alive status of the player
+        public string getAliveStatus(int playerIndex) {
+            if (arrRoles[playerIndex].getAlive() == true) {
+                return "true";
+            } else { 
+                return "false";
+            }
+        }
+
+        //below method returns the faction the player belongs to
+        public string getFac(int playerIndex)
+        {
+            return arrRoles[playerIndex].getFaction();
+        }
+
+        public System.Drawing.Bitmap getSprite(int playerIndex, int aliveStatusIndex) { return arrSprites[aliveStatusIndex, playerIndex]; }
+        //above method returns the sprite in arrSprites of the player and alive status referenced referenced 
+        public string getPlayer(int playerIndex) { return arrPlayers[playerIndex]; }
+        //above method returns the username of the player at index playerIndex
         public Game(string callingUser, string callingCode) {
             hostUser = callingUser;//useful in iteration 4 onwards
             arrPlayers[0] = "firstPlayer";//filler assignments until profiles added in iteration 3
@@ -66,12 +91,29 @@ namespace DeceptionPalace
             arrPlayers[6] = "seventhPlayer";
             arrPlayers[7] = "eighthPlayer";
             arrPlayers[8] = "ninethPlayer";
-            code = callingCode;//useful in iteration 4 onwards
-            BLOCKERNO = -1;//indicator that a player is blocked
             WININDEX = 0;//this variable and the 4 below are category index constants for arrStats/Sprites
             LOSTINDEX = 1;
             ALIVEINDEX = 0;
             DEADINDEX = 1;
+            for (int k = 0; k < 9; k++)
+            {       //for loop initialises contents of arrSprites until customisability enabled
+                arrSprites[ALIVEINDEX, k] = Properties.Resources.pinkWomanAlive;
+                arrSprites[DEADINDEX, k] = Properties.Resources.pinkWomanDead;
+            }
+            for (int j = 0; j < 2; j++)//this foor loop iterates through 2 integers since arrSprites is a [2, 9] array and each element needs to be assigned to
+            {
+                for (int k = 0; k < 9; k++)//this foor loop iterates through 9 integers since arrSprites is a [2, 9] array and each element needs to be assigned to
+                {
+                    if(j == 0){
+                        arrSprites[j, k] = Properties.Resources.pinkWomanAlive;
+                    } else { 
+                        arrSprites[j, k] = Properties.Resources.pinkWomanDead;
+                    }
+                }
+            }
+            code = callingCode;//useful in iteration 4 onwards
+            BLOCKERNO = -1;//indicator that a player is blocked
+            
             winMet = false;//these four variables are preset to false because no one can have won 
             palaceWon = false;//before the game has actually begun
             jesterWon = false;

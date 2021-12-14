@@ -92,5 +92,35 @@
   <ItemGroup>
     <None Include="bin\Debug\Capture.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 1 dead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 2 dead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 3 dead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 4 dead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite 4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite pink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DECEP sprite pink dead.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

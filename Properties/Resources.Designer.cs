@@ -63,6 +63,26 @@ namespace DeceptionPalace.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pinkWomanAlive {
+            get {
+                object obj = ResourceManager.GetObject("pinkWomanAlive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pinkWomanDead {
+            get {
+                object obj = ResourceManager.GetObject("pinkWomanDead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap testImage {
             get {
                 object obj = ResourceManager.GetObject("testImage", resourceCulture);
