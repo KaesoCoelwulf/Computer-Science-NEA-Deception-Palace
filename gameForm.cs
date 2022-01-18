@@ -56,8 +56,12 @@ namespace DeceptionPalace
                 picBoxArray[i].Image = gamePlayed.getSprite(i, gamePlayed.getALIVEINDEX());//initialising each player's sprite
             }
 
-            //MessageBox.Show("1: " + gamePlayed.getPlayer(0) + ": " + gamePlayed.getRole(0) + " " + gamePlayed.getFac(0) + " " + gamePlayed.getAliveStatus(0));
-
+            //below is test code in order to output the states of 'invisible' variables (arrRoles)
+            for (int j = 0; j < gamePlayed.getRolesAmount() - 1; j++)
+            {
+                MessageBox.Show((j + 1) + ": "+ gamePlayed.getPlayer(j) + ": " + gamePlayed.getRole(j) + " " + gamePlayed.getFac(j) + " " + gamePlayed.getAliveStatus(j));
+            }
+        
         }
 
         private void btnToTarget1_Click(object sender, EventArgs e)

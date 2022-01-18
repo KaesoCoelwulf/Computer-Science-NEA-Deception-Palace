@@ -14,7 +14,6 @@ namespace DeceptionPalace
         private Role[] arrRoles = new Role[12];//array of the corresponding roles in index positions to arrPlayers
         private int[,] arrStats = new int[2, 2];//for future iterations holds the stat changes to be processed in gameEnd
         private System.Drawing.Bitmap[,] arrSprites = new System.Drawing.Bitmap[2, 12];//for future iterations holds corresponding player's sprite preference
-        private int BLOCKERNO;//constant that holds the number indicating a user has been blocked in targets[]
         private int WININDEX;//constant for the index of winning players in arrStats
         private int LOSTINDEX;//constant for the index of losing players in arrStats
         private int ALIVEINDEX;//constant for the index of alive players in arrStats
@@ -36,7 +35,6 @@ namespace DeceptionPalace
         private int v6Index;//the index corresponds to the sixth villager in arrPlayers, arrRoles, arrSprites, targets
         private int v7Index;//the index corresponds to the seventh villager in arrPlayers, arrRoles, arrSprites, targets
         private int v8Index;//the index corresponds to the eighth villager in arrPlayers, arrRoles, arrSprites, targets
-        private int v9Index;//the index corresponds to the ninth villager in arrPlayers, arrRoles, arrSprites, targets
         private string DB;//for future iterations, the filepath of the database
         private bool winMet;//holds whether or not any faction has achieved their win condition
         private int targetIndex;//the index of the target of the current player being asked to enter a target
@@ -54,6 +52,9 @@ namespace DeceptionPalace
         private string facWon;//contains the name of the faction that won
         private string hostUser;//for future iterations, the name of the user who is hosting the game
         private Form gameForm;//the form which games occur in
+
+        //method below returns the length of arrRoles
+        public int getRolesAmount() { return arrRoles.Length; }
 
         //method below simply returns ALIVEINDEX for game initialising purposes
         public int getALIVEINDEX() { return ALIVEINDEX; }
@@ -95,22 +96,13 @@ namespace DeceptionPalace
             LOSTINDEX = 1;
             ALIVEINDEX = 0;
             DEADINDEX = 1;
+
             for (int k = 0; k < 9; k++)
             {       //for loop initialises contents of arrSprites until customisability enabled
                 arrSprites[ALIVEINDEX, k] = Properties.Resources.pinkWomanAlive;
                 arrSprites[DEADINDEX, k] = Properties.Resources.pinkWomanDead;
             }
-            for (int j = 0; j < 2; j++)//this foor loop iterates through 2 integers since arrSprites is a [2, 9] array and each element needs to be assigned to
-            {
-                for (int k = 0; k < 9; k++)//this foor loop iterates through 9 integers since arrSprites is a [2, 9] array and each element needs to be assigned to
-                {
-                    if(j == 0){
-                        arrSprites[j, k] = Properties.Resources.pinkWomanAlive;
-                    } else { 
-                        arrSprites[j, k] = Properties.Resources.pinkWomanDead;
-                    }
-                }
-            }
+            
             code = callingCode;//useful in iteration 4 onwards
             BLOCKERNO = -1;//indicator that a player is blocked
             
@@ -162,11 +154,11 @@ namespace DeceptionPalace
         }
         public void generateOptional()
         {
-            Role fillerRole = new Role("notnull", "notnull");
+            Role fillerRole1 = new Role("notnull", "notnull");
             int rdmNum;
             string currentRole;
             Random rdm = new Random();//Random is a c# class that generates random outputs between certain arguments
-            string[] optionalRoles = { "Bodyguard", "Villager 1", "Villager 2", "Villager 3", "Villager 4", "Villager 5", "Villager 6", "Villager 7", "Villager 8", "Villager 9" };
+            string[] optionalRoles = { "Bodyguard", "Villager 1", "Villager 2", "Villager 3", "Villager 4", "Villager 5", "Villager 6", "Villager 7", "Villager 8" };
             for (int i = 0; i < optionalRoles.Length; i++)
             {
                 rdmNum = rdm.Next(0, 12);//Outputs random number between 0 and 11
@@ -174,7 +166,7 @@ namespace DeceptionPalace
                 {
                     rdmNum = rdm.Next(0, 12);
                 }
-                arrRoles[rdmNum] = fillerRole;
+                arrRoles[rdmNum] = fillerRole1;
                 currentRole = optionalRoles[i];
 
                 switch (currentRole)
@@ -206,9 +198,7 @@ namespace DeceptionPalace
                     case "Villager 8":
                         v8Index = rdmNum;
                         break;
-                    case "Villager 9":
-                        v9Index = rdmNum;
-                        break;
+    
                 }
             }
         }
@@ -226,8 +216,7 @@ namespace DeceptionPalace
             Role Villager5 = new Role("Villager", "Palace");
             Role Villager6 = new Role("Villager", "Palace");
             Role Villager7 = new Role("Villager", "Palace");
-            Role Villager8 = new Role("Villager", "Palace");
-            Role Villager9 = new Role("Villager", "Assassin");
+            Role Villager8 = new Role("Villager", "Assassin");
             Role Assassin = new Role("Assassin", "Assassin");
             //attributing roles to arrRoles based on index variables
             arrRoles[kingIndex] = King;
@@ -241,7 +230,6 @@ namespace DeceptionPalace
             arrRoles[v6Index] = Villager6;
             arrRoles[v7Index] = Villager7;
             arrRoles[v8Index] = Villager8;
-            arrRoles[v9Index] = Villager9;
             arrRoles[assassinIndex] = Assassin;
         }
     }
