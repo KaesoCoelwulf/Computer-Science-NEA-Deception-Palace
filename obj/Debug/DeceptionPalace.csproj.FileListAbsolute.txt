@@ -1,0 +1,11 @@
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.Form1.resources
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.mainGameForm.resources
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.csproj.GenerateResource.cache
+F:\DeceptionPalace\bin\Debug\DeceptionPalace.exe.config
+F:\DeceptionPalace\bin\Debug\DeceptionPalace.exe
+F:\DeceptionPalace\bin\Debug\DeceptionPalace.pdb
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.csproj.AssemblyReference.cache
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.Properties.Resources.resources
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.csproj.CoreCompileInputs.cache
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.exe
+F:\DeceptionPalace\obj\Debug\DeceptionPalace.pdb
