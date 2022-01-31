@@ -57,7 +57,7 @@ namespace DeceptionPalace
             }
 
             //below is test code in order to output the states of 'invisible' variables (arrRoles)
-            for (int j = 0; j < gamePlayed.getRolesAmount() - 1; j++)
+            for (int j = 0; j < gamePlayed.getRolesAmount(); j++)
             {
                 MessageBox.Show((j + 1) + ": "+ gamePlayed.getPlayer(j) + ": " + gamePlayed.getRole(j) + " " + gamePlayed.getFac(j) + " " + gamePlayed.getAliveStatus(j));
             }
