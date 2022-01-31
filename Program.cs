@@ -104,7 +104,6 @@ namespace DeceptionPalace
             }
             
             code = callingCode;//useful in iteration 4 onwards
-            BLOCKERNO = -1;//indicator that a player is blocked
             
             winMet = false;//these four variables are preset to false because no one can have won 
             palaceWon = false;//before the game has actually begun
