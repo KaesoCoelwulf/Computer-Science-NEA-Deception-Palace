@@ -70,7 +70,7 @@ namespace DeceptionPalace
             MessageBox.Show("10: "+ gamePlayed.getPlayer(9) + ": " + gamePlayed.getRole(9) + " " + gamePlayed.getFac(9) + " " + gamePlayed.getAliveStatus(9));
             MessageBox.Show("11: "+ gamePlayed.getPlayer(10) + ": " + gamePlayed.getRole(10) + " " + gamePlayed.getFac(10) + " " + gamePlayed.getAliveStatus(10));
             MessageBox.Show("12: "+ gamePlayed.getPlayer(11) + ": " + gamePlayed.getRole(11) + " " + gamePlayed.getFac(11) + " " + gamePlayed.getAliveStatus(11));
-            MessageBox.Show("filler");                 
+                   
             
         }
 
