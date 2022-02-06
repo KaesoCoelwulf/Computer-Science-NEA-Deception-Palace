@@ -65,6 +65,9 @@ namespace DeceptionPalace
             this.stageLabel = new System.Windows.Forms.Label();
             this.stageNumLabel = new System.Windows.Forms.Label();
             this.stageIcon = new System.Windows.Forms.PictureBox();
+            this.btn1stRole = new System.Windows.Forms.Button();
+            this.btn2ndRole = new System.Windows.Forms.Button();
+            this.btn3rdRole = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.boxPlayer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerSprite1)).BeginInit();
@@ -373,7 +376,7 @@ namespace DeceptionPalace
             // 
             // roleTextbox
             // 
-            this.roleTextbox.Location = new System.Drawing.Point(12, 239);
+            this.roleTextbox.Location = new System.Drawing.Point(12, 283);
             this.roleTextbox.Name = "roleTextbox";
             this.roleTextbox.ReadOnly = true;
             this.roleTextbox.Size = new System.Drawing.Size(337, 320);
@@ -419,12 +422,42 @@ namespace DeceptionPalace
             this.stageIcon.TabIndex = 10;
             this.stageIcon.TabStop = false;
             // 
+            // btn1stRole
+            // 
+            this.btn1stRole.Location = new System.Drawing.Point(54, 211);
+            this.btn1stRole.Name = "btn1stRole";
+            this.btn1stRole.Size = new System.Drawing.Size(75, 36);
+            this.btn1stRole.TabIndex = 11;
+            this.btn1stRole.Text = "Choose Role 1";
+            this.btn1stRole.UseVisualStyleBackColor = true;
+            // 
+            // btn2ndRole
+            // 
+            this.btn2ndRole.Location = new System.Drawing.Point(135, 211);
+            this.btn2ndRole.Name = "btn2ndRole";
+            this.btn2ndRole.Size = new System.Drawing.Size(75, 36);
+            this.btn2ndRole.TabIndex = 12;
+            this.btn2ndRole.Text = "Choose Role 2";
+            this.btn2ndRole.UseVisualStyleBackColor = true;
+            // 
+            // btn3rdRole
+            // 
+            this.btn3rdRole.Location = new System.Drawing.Point(216, 211);
+            this.btn3rdRole.Name = "btn3rdRole";
+            this.btn3rdRole.Size = new System.Drawing.Size(75, 36);
+            this.btn3rdRole.TabIndex = 13;
+            this.btn3rdRole.Text = "Choose Role 3";
+            this.btn3rdRole.UseVisualStyleBackColor = true;
+            // 
             // mainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(874, 617);
+            this.Controls.Add(this.btn3rdRole);
+            this.Controls.Add(this.btn2ndRole);
+            this.Controls.Add(this.btn1stRole);
             this.Controls.Add(this.stageIcon);
             this.Controls.Add(this.stageNumLabel);
             this.Controls.Add(this.stageLabel);
@@ -507,5 +540,12 @@ namespace DeceptionPalace
         private System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
         private System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
+        private System.Windows.Forms.Button btn3rdRole;
+        private System.Windows.Forms.Button btn2ndRole;
+        private System.Windows.Forms.Button btn1stRole;
+
+        public void updateEventText(string newText) { 
+             eventTextbox.Text = newText;
+        }
     }
 }

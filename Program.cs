@@ -81,6 +81,7 @@ namespace DeceptionPalace
         //above method returns the sprite in arrSprites of the player and alive status referenced referenced 
         public string getPlayer(int playerIndex) { return arrPlayers[playerIndex]; }
         //above method returns the username of the player at index playerIndex
+
         public Game(string callingUser, string callingCode) {
             hostUser = callingUser;//useful in iteration 4 onwards
             arrPlayers[0] = "firstPlayer";//filler assignments until profiles added in iteration 3
@@ -104,7 +105,6 @@ namespace DeceptionPalace
             }
             
             code = callingCode;//useful in iteration 4 onwards
-            BLOCKERNO = -1;//indicator that a player is blocked
             
             winMet = false;//these four variables are preset to false because no one can have won 
             palaceWon = false;//before the game has actually begun
@@ -198,7 +198,7 @@ namespace DeceptionPalace
                     case "Villager 8":
                         v8Index = rdmNum;
                         break;
-    
+                    
                 }
             }
         }
@@ -231,6 +231,13 @@ namespace DeceptionPalace
             arrRoles[v7Index] = Villager7;
             arrRoles[v8Index] = Villager8;
             arrRoles[assassinIndex] = Assassin;
+        }
+
+        public void gameloop()
+        {
+            gameForm.updateEventText("You are " + arrPlayers[kingIndex] +
+                ", and you are the King. Choose a role not in play to check.");
+            //If you can't solve this problem, just change eventTextbox's protection level to public
         }
     }
     
