@@ -239,6 +239,15 @@ namespace DeceptionPalace
                 ", and you are the King. Choose a role not in play to check.");
             //If you can't solve this problem, just change eventTextbox's protection level to public
         }
+        
+        public void kingSpecialAbility(int chosenRole){
+            string numberNotPlayed;//string to be used in a sentence in eventTextbox
+            if(chosenRole == 9){numberNotPlayed = "first";}//this if statement simply helps construct the output sentence to eventTextbox
+            else if(chosenRole == 10){numberNotPlayed = "second";}
+            else if (chosenRole == 11){numberNotPlayed = "third";}
+            mainGameForm.eventTextbox.Text = "The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getName + ".";
+            kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
+        }
     }
     
     class Role
