@@ -71,7 +71,51 @@ namespace DeceptionPalace
             MessageBox.Show("12: " + gamePlayed.getPlayer(11) + ": " + gamePlayed.getRole(11) + " " + gamePlayed.getFac(11) + " " + gamePlayed.getAliveStatus(11));
 
         }
-
+        private void btn1stRole_Click(object sender, EventArgs e)
+        {
+            int ROLE1NOTPLAYED = 9;//index is 9 for first role not in play
+            if(!kingSpecialDone){//this branch is for when kingSpecialAbility hasn't been done already
+                kingSpecialAbility(ROLE1NOTPLAYED);//King sees the first role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[multitalentIndex] + " and you are the multitalent.
+                                                    Choose which role you want to become.";//instructions for multitalentSwitch
+            }else{//can only be called when kingSpecialAbility has already been done
+                multitalentSwitch(ROLE1NOTPLAYED);//multitalent switches roles with the first role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[0] + " and you are the " + arrRoles[0].getRole() +
+                                                    ". Choose who you want to target.";//instructions for first player targeting someone
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();//hiding unnecessary buttons
+                night();//night stage begins
+            }
+        }
+        private void btn2ndRole_Click(object sender, EventArgs e)
+        {
+            int ROLE2NOTPLAYED = 10;//index is 10 for second role not in play
+            if(!kingSpecialDone){//this branch is for when kingSpecialAbility hasn't been done already
+                kingSpecialAbility(ROLE2NOTPLAYED);//King sees the second role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[multitalentIndex] + " and you are the multitalent.
+                                                    Choose which role you want to become.";//instructions for multitalentSwitch
+            }else{//can only be called when kingSpecialAbility has already been done
+                multitalentSwitch(ROLE2NOTPLAYED);//multitalent switches roles with the second role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[0] + " and you are the " + arrRoles[0].getRole() +
+                                                    ". Choose who you want to target.";//instructions for first player targeting someone
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();//hiding unnecessary buttons
+                night();//night stage begins
+            }
+        }
+        private void btn3rdRole_Click(object sender, EventArgs e)
+        {
+            int ROLE3NOTPLAYED = 11;//index is 11 for third role not in play
+            if(!kingSpecialDone){//this branch is for when kingSpecialAbility hasn't been done already
+                kingSpecialAbility(ROLE3NOTPLAYED);//King sees the third role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[multitalentIndex] + " and you are the multitalent.
+                                                    Choose which role you want to become.";//instructions for multitalentSwitch
+            }else{//can only be called when kingSpecialAbility has already been done
+                multitalentSwitch(ROLE3NOTPLAYED);//multitalent switches roles with the third role not in play
+                mainGameForm.eventTextbox.Text = "You are " + arrPlayers[0] + " and you are the " + arrRoles[0].getRole() +
+                                                    ". Choose who you want to target.";//instructions for first player targeting someone
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();//hiding unnecessary buttons
+                night();//night stage begins
+            }
+        }
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
 
