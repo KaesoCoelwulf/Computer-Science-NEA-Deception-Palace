@@ -248,6 +248,36 @@ namespace DeceptionPalace
             mainGameForm.eventTextbox.Text = "The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getName + ".";
             kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
         }
+        
+        public void night(){
+            dayStage = false;//no longer the day. Useful for the button handlers for target buttons
+            if (playerCounter <= 8){//some players might still need to input their targets
+                playerRole = arrRoles[playerCounter].getRole();
+                //below if statement validates whether or not the player should be allowed to input a target or not
+                if((playerRole == "Assassin" or playerRole == "Sentinel" or playerRole == "Chemist" or playerRole == "Blocker") and arrRoles[playerCounter].getAlive()){
+                    mainGameForm.eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.";//button handlers handle inputs
+                }else{//either the player has no ability or is dead - can't input a target
+                    playerCounter++;//moves onto the next player
+                    night();//recurses to see if this new player index is a valid player to input a target
+                }
+            }else{//all players have input their targets
+                playerCounter = 0;//resets playerCounter for its next use in prelimVote()
+                processAbilities();
+                day();//moves to next stage of the game
+            }
+        }
+        
+        public void day(){
+            dayStage = true;//is now day, allows button handlers to process day inputs correctly
+            checkNewDeaths();//updates aliveList and deadList, and outputs the deaths that have occurred
+            checkWinConditions();//updates winMet to true if any win condition has been met
+            if(!winMet){//validates that no win conditions have been met so the game should continue
+                mainGameForm.eventTextbox.Text = "Please discuss your theories, and begin
+                                  inputing people's preliminary votes for execution when you're ready.";
+            }else{//if win condition of any faction is met, game should end
+                gameEnd();//triggers post-game processes
+            }
+        }
     }
     
     class Role
