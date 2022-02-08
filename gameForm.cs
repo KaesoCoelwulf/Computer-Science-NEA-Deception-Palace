@@ -118,7 +118,146 @@ namespace DeceptionPalace
         }
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
-
+            int gettingTargeted = 0;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget2_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 1;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget3_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 2;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget4_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 3;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget5_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 4;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget6_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 5;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget7_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 6;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget8_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 7;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
+        
+        private void btnToTarget9_Click(object sender, EventArgs e)
+        {
+            int gettingTargeted = 8;//player index that this button corresponds to
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(gettingTargeted);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(gettingTargeted);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
         }
     }
 }
