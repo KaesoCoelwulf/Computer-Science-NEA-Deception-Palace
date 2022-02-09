@@ -1,8 +1,17 @@
-﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 namespace DeceptionPalace
 {
     partial class mainGameForm
     {
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -506,7 +515,7 @@ namespace DeceptionPalace
         private System.Windows.Forms.PictureBox stageIcon;
         private System.Windows.Forms.Label stageNumLabel;
         private System.Windows.Forms.Label stageLabel;
-        private System.Windows.Forms.RichTextBox eventTextbox;
+        public System.Windows.Forms.RichTextBox eventTextbox;
         private System.Windows.Forms.RichTextBox roleTextbox;
         private System.Windows.Forms.GroupBox boxPlayer9;
         private System.Windows.Forms.Button btnToTarget9;
@@ -535,17 +544,16 @@ namespace DeceptionPalace
         private System.Windows.Forms.GroupBox boxPlayer1;
         private System.Windows.Forms.Button btnToTarget1;
         private System.Windows.Forms.PictureBox playerSprite1;
+        private System.Windows.Forms.Button btn3rdRole;
+        private System.Windows.Forms.Button btn2ndRole;
+        private System.Windows.Forms.Button btn1stRole;
 
         private System.Windows.Forms.GroupBox[] groupBoxArray = new System.Windows.Forms.GroupBox[9];//array holding the 9 group boxes for players so they can be referenced efficiently without using selection
         private System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
         private System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
-        private System.Windows.Forms.Button btn3rdRole;
-        private System.Windows.Forms.Button btn2ndRole;
-        private System.Windows.Forms.Button btn1stRole;
+       
 
-        public void updateEventText(string newText) { 
-             eventTextbox.Text = newText;
-        }
+        
     }
 }
