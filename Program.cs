@@ -96,6 +96,8 @@ namespace DeceptionPalace
             arrPlayers[6] = "seventhPlayer";
             arrPlayers[7] = "eighthPlayer";
             arrPlayers[8] = "ninethPlayer";
+            kingSpecialDone = false;
+            playerCounter = 0;
             WININDEX = 0;//this variable and the 4 below are category index constants for arrStats/Sprites
             LOSTINDEX = 1;
             ALIVEINDEX = 0;
@@ -255,9 +257,10 @@ namespace DeceptionPalace
         public void night(){
             dayStage = false;//no longer the day. Useful for the button handlers for target buttons
             if (playerCounter <= 8){//some players might still need to input their targets
-                playerRole = arrRoles[playerCounter].getRole();
+                string playerRole;
+                playerRole = this.arrRoles[playerCounter].getRole();
                 //below if statement validates whether or not the player should be allowed to input a target or not
-                if((playerRole == "Assassin" or playerRole == "Sentinel" or playerRole == "Chemist" or playerRole == "Blocker") and arrRoles[playerCounter].getAlive()){
+                if((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker") && arrRoles[playerCounter].getAlive()){
                     mainGameForm.eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.";//button handlers handle inputs
                 }else{//either the player has no ability or is dead - can't input a target
                     playerCounter++;//moves onto the next player
