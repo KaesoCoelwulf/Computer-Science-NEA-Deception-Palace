@@ -118,146 +118,47 @@ namespace DeceptionPalace
         }
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 0;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(0);//processes all possible instances of a player targeting the first player
         }
         
         private void btnToTarget2_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 1;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(1);//processes all possible instances of a player targeting the second player
         }
         
         private void btnToTarget3_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 2;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(2);//processes all possible instances of a player targeting the third player
         }
         
         private void btnToTarget4_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 3;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(3);//processes all possible instances of a player targeting the fourth player
         }
         
         private void btnToTarget5_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 4;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(4);//processes all possible instances of a player targeting the fifth player
         }
         
         private void btnToTarget6_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 5;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(5);//processes all possible instances of a player targeting the sixth player
         }
         
         private void btnToTarget7_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 6;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(6);//processes all possible instances of a player targeting the seventh player
         }
         
         private void btnToTarget8_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 7;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(7);//processes all possible instances of a player targeting the eighth player
         }
         
         private void btnToTarget9_Click(object sender, EventArgs e)
         {
-            int gettingTargeted = 8;//player index that this button corresponds to
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
-                    prelimVote(gettingTargeted);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
-                    executing(gettingTargeted);//the first player is killed
-                }
-            }else{//night stage - processing targetting players
-                targets[playerCounter] = gettingTargeted;//logging the player's target as the first player
-                playerCounter++;//moving to next player in the night() subroutine
-                night();//calling night() again
-            }
+            gamePlayed.processTarget(8);//processes all possible instances of a player targeting the ninth player
         }
     }
 }
