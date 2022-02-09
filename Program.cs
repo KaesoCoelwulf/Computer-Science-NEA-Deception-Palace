@@ -52,6 +52,7 @@ namespace DeceptionPalace
         private string facWon;//contains the name of the faction that won
         private string hostUser;//for future iterations, the name of the user who is hosting the game
         private Form gameForm;//the form which games occur in
+        private bool kingSpecialDone;//boolean that tells whether kingSpecialAbility() has been run or not
 
         //method below returns the length of arrRoles
         public int getRolesAmount() { return arrRoles.Length; }
