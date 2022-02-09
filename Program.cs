@@ -16,12 +16,13 @@ namespace DeceptionPalace
             {
                Application.EnableVisualStyles();
                Application.SetCompatibleTextRenderingDefault(false);
-               mainGameForm gameObj = new mainGameForm();
-               Application.Run(gameObj);
+               Application.Run(new mainGameForm());
             }
          }
     class Game
     {
+
+        private static mainGameForm gameObj = Application.OpenForms.OfType<mainGameForm>().FirstOrDefault();//link to the form the class operates in
         private string code;//for future iterations, holds the 4 letter code to reference a game
         private string[] arrPlayers = new string[12];//array of players' usernames in order to match their corresponding role in arrRoles
         private Role[] arrRoles = new Role[12];//array of the corresponding roles in index positions to arrPlayers
@@ -65,7 +66,7 @@ namespace DeceptionPalace
         private int[] targets = new int[12];//contains the indexes of each player's targets for each night stage
         private string facWon;//contains the name of the faction that won
         private string hostUser;//for future iterations, the name of the user who is hosting the game
-        private Form gameForm;//the form which games occur in
+        private Form mainGameForm;//the form which games occur in
         private bool kingSpecialDone;//boolean that tells whether kingSpecialAbility() has been run
         private bool dayStage;//boolean that holds true when its the day stage and false when its the night stage
         private int playerCounter;//integer used to cycle through player indexes 
@@ -255,7 +256,7 @@ namespace DeceptionPalace
 
         public void gameloop()
         {
-            gameObj.updateEventText("You are " + arrPlayers[kingIndex] +
+            updateEventText("You are " + arrPlayers[kingIndex] +
                 ", and you are the King. Choose a role not in play to check.");
             //If you can't solve this problem, just change eventTextbox's protection level to public
             //PERHAPS IMPLEMENT GAMELOOP AS AN EVENT FOR LOADING UP THE FORM
@@ -268,7 +269,7 @@ namespace DeceptionPalace
             if (chosenRole == 9) { numberNotPlayed = "first"; }//this if statement simply helps construct the output sentence to eventTextbox
             else if (chosenRole == 10) { numberNotPlayed = "second"; }
             else { numberNotPlayed = "third"; }
-            mainGameForm.eventTextbox.Text = "The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".";
+            updateEventText("The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".");
             kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
         }
 
@@ -282,7 +283,7 @@ namespace DeceptionPalace
                 if ((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker") 
                                                                                                 && arrRoles[playerCounter].getAlive()){
                     //button handlers handle inputs
-                    mainGameForm.eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.";
+                    updateEventText("You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.");
                 }else
                 {//either the player has no ability or is dead - can't input a target
                     playerCounter++;//moves onto the next player
@@ -304,7 +305,7 @@ namespace DeceptionPalace
             checkWinConditions();//updates winMet to true if any win condition has been met
             if (!winMet)
             {//validates that no win conditions have been met so the game should continue
-                mainGameForm.eventTextbox.Text = "Please discuss your theories, and begin inputing people's preliminary votes for execution when you're ready.";
+                updateEventText("Please discuss your theories, and begin inputing people's preliminary votes for execution when you're ready.");
             }
             else
             {//if win condition of any faction is met, game should end
@@ -341,13 +342,13 @@ namespace DeceptionPalace
             {//prelimVote should end
                 prelimDone = true;//makes next button click trigger executing()
                 playerCounter = 0;//resets playerCounter in time for the night stage
-                eventTextbox.Text = "You are " + arrPlayers[kingIndex] + ". Who do you want to execute?";
+                updateEventText("You are " + arrPlayers[kingIndex] + ". Who do you want to execute?");
             }
             else
             {//continue prelimVote
                 if (arrRoles[playerCounter].getAlive())
                 {//alive players can vote
-                    eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
+                    updateEventText("You are " + arrPlayers[playerCounter] + ", who do you want to vote for?");
                 }
                 else
                 {//dead players can't vote - look for another alive player
@@ -357,7 +358,7 @@ namespace DeceptionPalace
                     } while (playerCounter > 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
                     if (playerCounter > 9)
                     {//if less than 9, it is a valid player
-                        eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
+                        updateEventText("You are " + arrPlayers[playerCounter] + ", who do you want to vote for?");
                     }
                 }
             }
@@ -384,7 +385,7 @@ namespace DeceptionPalace
             deadList.Append(exeTarg);
             aliveList.Remove(exeTarg);
             //output execution
-            eventTextbox.Text = arrPlayers[exeTarg] + " was executed.";
+            updateEventText(arrPlayers[exeTarg] + " was executed.");
             //check whether to continue game or not
             if (winMet)
             {
@@ -395,6 +396,9 @@ namespace DeceptionPalace
                 night();
             }
         }
+
+        public static void updateEventText(string newText)//method that updates contents of eventTextbox
+        { gameObj.eventTextbox.Text = newText; }
     }
     
     class Role
