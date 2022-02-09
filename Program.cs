@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,7 +6,20 @@ using System.Windows.Forms;
 
 namespace DeceptionPalace
 {
-
+    static class Program
+        {
+            /// <summary>
+            /// The main entry point for the application.
+            /// </summary>
+            [STAThread]
+         static void Main()
+            {
+               Application.EnableVisualStyles();
+               Application.SetCompatibleTextRenderingDefault(false);
+               mainGameForm gameObj = new mainGameForm();
+               Application.Run(gameObj);
+            }
+         }
     class Game
     {
         private string code;//for future iterations, holds the 4 letter code to reference a game
@@ -14,6 +27,7 @@ namespace DeceptionPalace
         private Role[] arrRoles = new Role[12];//array of the corresponding roles in index positions to arrPlayers
         private int[,] arrStats = new int[2, 2];//for future iterations holds the stat changes to be processed in gameEnd
         private System.Drawing.Bitmap[,] arrSprites = new System.Drawing.Bitmap[2, 12];//for future iterations holds corresponding player's sprite preference
+        private int[] arrVotes = new int[9];//array of preliminary votes that holds how many players each round think a corresponding player should be executed
         private int WININDEX;//constant for the index of winning players in arrStats
         private int LOSTINDEX;//constant for the index of losing players in arrStats
         private int ALIVEINDEX;//constant for the index of alive players in arrStats
@@ -52,9 +66,10 @@ namespace DeceptionPalace
         private string facWon;//contains the name of the faction that won
         private string hostUser;//for future iterations, the name of the user who is hosting the game
         private Form gameForm;//the form which games occur in
-        private bool kingSpecialDone;//boolean that tells whether kingSpecialAbility() has been run or not
-        private bool dayStage;//boolean that holds true when it's the day stage and false when it's the night
-        private int playerCounter;//integer used to cycle through player indexes across multiple subroutines
+        private bool kingSpecialDone;//boolean that tells whether kingSpecialAbility() has been run
+        private bool dayStage;//boolean that holds true when its the day stage and false when its the night stage
+        private int playerCounter;//integer used to cycle through player indexes 
+        private bool prelimDone;//boolean that tells whether or not all the preliminary votes of a round have been done
 
         //method below returns the length of arrRoles
         public int getRolesAmount() { return arrRoles.Length; }
@@ -97,11 +112,11 @@ namespace DeceptionPalace
             arrPlayers[7] = "eighthPlayer";
             arrPlayers[8] = "ninethPlayer";
             kingSpecialDone = false;
-            playerCounter = 0;
             WININDEX = 0;//this variable and the 4 below are category index constants for arrStats/Sprites
             LOSTINDEX = 1;
             ALIVEINDEX = 0;
             DEADINDEX = 1;
+            playerCounter = 0;
 
             for (int k = 0; k < 9; k++)
             {       //for loop initialises contents of arrSprites until customisability enabled
@@ -240,110 +255,143 @@ namespace DeceptionPalace
 
         public void gameloop()
         {
-            gameForm.updateEventText("You are " + arrPlayers[kingIndex] +
+            gameObj.updateEventText("You are " + arrPlayers[kingIndex] +
                 ", and you are the King. Choose a role not in play to check.");
             //If you can't solve this problem, just change eventTextbox's protection level to public
+            //PERHAPS IMPLEMENT GAMELOOP AS AN EVENT FOR LOADING UP THE FORM
+            //scrap that :(
         }
-        
-        public void kingSpecialAbility(int chosenRole){
+
+        public void kingSpecialAbility(int chosenRole)
+        {
             string numberNotPlayed;//string to be used in a sentence in eventTextbox
-            if(chosenRole == 9){numberNotPlayed = "first";}//this if statement simply helps construct the output sentence to eventTextbox
-            else if(chosenRole == 10){numberNotPlayed = "second";}
-            else {numberNotPlayed = "third";}
+            if (chosenRole == 9) { numberNotPlayed = "first"; }//this if statement simply helps construct the output sentence to eventTextbox
+            else if (chosenRole == 10) { numberNotPlayed = "second"; }
+            else { numberNotPlayed = "third"; }
             mainGameForm.eventTextbox.Text = "The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".";
             kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
         }
-        
-        public void night(){
+
+        public void night()
+        {
             dayStage = false;//no longer the day. Useful for the button handlers for target buttons
             if (playerCounter <= 8){//some players might still need to input their targets
                 string playerRole;
                 playerRole = this.arrRoles[playerCounter].getRole();
                 //below if statement validates whether or not the player should be allowed to input a target or not
-                if((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker") && arrRoles[playerCounter].getAlive()){
-                    mainGameForm.eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.";//button handlers handle inputs
-                }else{//either the player has no ability or is dead - can't input a target
+                if ((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker") 
+                                                                                                && arrRoles[playerCounter].getAlive()){
+                    //button handlers handle inputs
+                    mainGameForm.eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.";
+                }else
+                {//either the player has no ability or is dead - can't input a target
                     playerCounter++;//moves onto the next player
                     night();//recurses to see if this new player index is a valid player to input a target
                 }
-            }else{//all players have input their targets
+            }
+            else
+            {//all players have input their targets
                 playerCounter = 0;//resets playerCounter for its next use in prelimVote()
                 processAbilities();
                 day();//moves to next stage of the game
             }
         }
-        
-        public void day(){
+
+        public void day()
+        {
             dayStage = true;//is now day, allows button handlers to process day inputs correctly
             checkNewDeaths();//updates aliveList and deadList, and outputs the deaths that have occurred
             checkWinConditions();//updates winMet to true if any win condition has been met
-            if(!winMet){//validates that no win conditions have been met so the game should continue
-                mainGameForm.eventTextbox.Text = "Please discuss your theories, and begin
-                                  inputing people's preliminary votes for execution when you're ready.";
-            }else{//if win condition of any faction is met, game should end
+            if (!winMet)
+            {//validates that no win conditions have been met so the game should continue
+                mainGameForm.eventTextbox.Text = "Please discuss your theories, and begin inputing people's preliminary votes for execution when you're ready.";
+            }
+            else
+            {//if win condition of any faction is met, game should end
                 gameEnd();//triggers post-game processes
             }
         }
-        
-        public void processTarget(targIndex){//targIndex parameter containing index of player targeted
-            if(dayStage){//day stage - processing either votes for execution or execution itself
-                if(!prelimDone){//have all the preliminary votes been input yet? - no
+
+        public void processTarget(int targIndex)
+        {//targIndex parameter containing index of player targeted
+            if (dayStage)
+            {//day stage - processing either votes for execution or execution itself
+                if (!prelimDone)
+                {//have all the preliminary votes been input yet? - no
                     prelimVote(targIndex);//the first player is voted for
-                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                }
+                else
+                {//have all the preliminary votes been input yet? - yes, proceed to executing
                     executing(targIndex);//the first player is killed
                 }
-            }else{//night stage - processing targetting players
+            }
+            else
+            {//night stage - processing targetting players
                 targets[playerCounter] = targIndex;//logging the player's target as the first player
                 playerCounter++;//moving to next player in the night() subroutine
                 night();//calling night() again
             }
         }
-        
-        public void prelimVote(voteFor){
+
+        public void prelimVote(int voteFor)
+        {
             arrVotes[voteFor]++;//increments the votes for player specified by the button click
             playerCounter++;//playerCounter increments so rest of the subroutine prepares for the next button click
-            if(playerCoutner == 9){//prelimVote should end
-                prelimDone == true;//makes next button click trigger executing()
+            if (playerCounter == 9)
+            {//prelimVote should end
+                prelimDone = true;//makes next button click trigger executing()
                 playerCounter = 0;//resets playerCounter in time for the night stage
                 eventTextbox.Text = "You are " + arrPlayers[kingIndex] + ". Who do you want to execute?";
-            }else{//continue prelimVote
-                if(arrRoles[playerCounter].getAlive()){//alive players can vote
+            }
+            else
+            {//continue prelimVote
+                if (arrRoles[playerCounter].getAlive())
+                {//alive players can vote
                     eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
-                }else{//dead players can't vote - look for another alive player
-                    do{
+                }
+                else
+                {//dead players can't vote - look for another alive player
+                    do
+                    {
                         playerCounter++;//looks at next player
-                    }while(playerCounter > 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
-                    if(playerCounter > 9){//if less than 9, it is a valid player
-                       eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
+                    } while (playerCounter > 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
+                    if (playerCounter > 9)
+                    {//if less than 9, it is a valid player
+                        eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
                     }
                 }
             }
         }
-        
-        public void executing(exeTarg){
+
+        public void executing(int exeTarg)
+        {
             //checks if the Sentinel is alive and if the Assassin was executed
-            if(arrRoles[exeTarg].getRole() == "Assassin" && arrRoles[sentinelIndex].getAlive()){
-                //Switches the roles of the Assassin and Sentinel
-                int temp = assassinIndex;
-                assassinIndex = sentinelIndex;
-		        sentinelIndex = temp;
-                Role tempRole = arrRoles[sentinelIndex];
-		        arrRoles[sentinelIndex] = arrRoles[assassinIndex];
-		        arrRoles[assassinIndex] = tempRole;
-            }
+            //if (arrRoles[exeTarg].getRole() == "Assassin" && arrRoles[sentinelIndex].getAlive())
+            //{
+            //    //Switches the roles of the Assassin and Sentinel
+            //    int temp = assassinIndex;
+            //    assassinIndex = sentinelIndex;
+            //    sentinelIndex = temp;
+            //    Role tempRole = arrRoles[sentinelIndex];
+            //    arrRoles[sentinelIndex] = arrRoles[assassinIndex];
+            //    arrRoles[assassinIndex] = tempRole;
+            //}
             //setting role aliveStatus attribute to false to indicate death
             arrRoles[exeTarg].setAlive(false);
             //death processing and win condition checking
             checkJesterWin(exeTarg);
             checkWinConditions();
-            deadList.Append(exeTarg);	
+            deadList.Append(exeTarg);
             aliveList.Remove(exeTarg);
             //output execution
             eventTextbox.Text = arrPlayers[exeTarg] + " was executed.";
             //check whether to continue game or not
-            if(winMet){
+            if (winMet)
+            {
                 gameEnd();
-            }else{
+            }
+            else
+            {
                 night();
             }
         }
@@ -366,17 +414,5 @@ namespace DeceptionPalace
             aliveStatus = true;//all players begin the game alive, so this is pregenerated to alive
         }
     }
-    static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new mainGameForm());
-        }
-    }
+    
 }
