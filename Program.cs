@@ -319,6 +319,34 @@ namespace DeceptionPalace
                 }
             }
         }
+        
+        public void executing(exeTarg){
+            //checks if the Sentinel is alive and if the Assassin was executed
+            if(arrRoles[exeTarg].getRole() == "Assassin" && arrRoles[sentinelIndex].getAlive()){
+                //Switches the roles of the Assassin and Sentinel
+                int temp = assassinIndex;
+                assassinIndex = sentinelIndex;
+		        sentinelIndex = temp;
+                Role tempRole = arrRoles[sentinelIndex];
+		        arrRoles[sentinelIndex] = arrRoles[assassinIndex];
+		        arrRoles[assassinIndex] = tempRole;
+            }
+            //setting role aliveStatus attribute to false to indicate death
+            arrRoles[exeTarg].setAlive(false);
+            //death processing and win condition checking
+            checkJesterWin(exeTarg);
+            checkWinConditions();
+            deadList.Append(exeTarg);	
+            aliveList.Remove(exeTarg);
+            //output execution
+            eventTextbox.Text = arrPlayers[exeTarg] + " was executed.";
+            //check whether to continue game or not
+            if(winMet){
+                gameEnd();
+            }else{
+                night();
+            }
+        }
     }
     
     class Role
