@@ -298,6 +298,27 @@ namespace DeceptionPalace
                 night();//calling night() again
             }
         }
+        
+        public void prelimVote(voteFor){
+            arrVotes[voteFor]++;//increments the votes for player specified by the button click
+            playerCounter++;//playerCounter increments so rest of the subroutine prepares for the next button click
+            if(playerCoutner == 9){//prelimVote should end
+                prelimDone == true;//makes next button click trigger executing()
+                playerCounter = 0;//resets playerCounter in time for the night stage
+                eventTextbox.Text = "You are " + arrPlayers[kingIndex] + ". Who do you want to execute?";
+            }else{//continue prelimVote
+                if(arrRoles[playerCounter].getAlive()){//alive players can vote
+                    eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
+                }else{//dead players can't vote - look for another alive player
+                    do{
+                        playerCounter++;//looks at next player
+                    }while(playerCounter > 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
+                    if(playerCounter > 9){//if less than 9, it is a valid player
+                       eventTextbox.Text = "You are " + arrPlayers[playerCounter] + ", who do you want to vote for?";
+                    }
+                }
+            }
+        }
     }
     
     class Role
