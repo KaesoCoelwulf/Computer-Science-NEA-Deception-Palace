@@ -53,6 +53,8 @@ namespace DeceptionPalace
         private string hostUser;//for future iterations, the name of the user who is hosting the game
         private Form gameForm;//the form which games occur in
         private bool kingSpecialDone;//boolean that tells whether kingSpecialAbility() has been run or not
+        private bool dayStage;//boolean that holds true when it's the day stage and false when it's the night
+        private int playerCounter;//integer used to cycle through player indexes across multiple subroutines
 
         //method below returns the length of arrRoles
         public int getRolesAmount() { return arrRoles.Length; }
