@@ -284,6 +284,20 @@ namespace DeceptionPalace
                 gameEnd();//triggers post-game processes
             }
         }
+        
+        public void processTarget(targIndex){//targIndex parameter containing index of player targeted
+            if(dayStage){//day stage - processing either votes for execution or execution itself
+                if(!prelimDone){//have all the preliminary votes been input yet? - no
+                    prelimVote(targIndex);//the first player is voted for
+                }else{//have all the preliminary votes been input yet? - yes, proceed to executing
+                    executing(targIndex);//the first player is killed
+                }
+            }else{//night stage - processing targetting players
+                targets[playerCounter] = targIndex;//logging the player's target as the first player
+                playerCounter++;//moving to next player in the night() subroutine
+                night();//calling night() again
+            }
+        }
     }
     
     class Role
