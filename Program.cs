@@ -272,7 +272,39 @@ namespace DeceptionPalace
             updateEventText("The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".");
             kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
         }
-
+        //processes the input of the multitalent by identifying the right parameters for processSwitch()
+        public void multitalentSwitch(int indxInt){
+            switch(arrRoles[indxInt].getRole()){//identify which role chosen
+                case "Bodyguard"://chosen role identified as Bodyguard
+                    processSwitch(bg2Index);//multitalent & bodyguard switch
+                case "Villager 1"://chosen role identified as Villager 1
+                    processSwitch(v1Index);//multitalent & villager 1 switch
+                case "Villager 2"://chosen role identified as Villager 2
+                    processSwitch(v2Index);//multitalent & villager 2 switch
+                case "Villager 3"://chosen role identified as Villager 3
+                    processSwitch(v3Index);//multitalent & villager 3 switch
+                case "Villager 4"://chosen role identified as Villager 4
+                    processSwitch(v4Index);//multitalent & villager 4 switch
+                case "Villager 5"://chosen role identified as Villager 5
+                    processSwitch(v5Index);//multitalent & villager 5 switch
+                case "Villager 6"://chosen role identified as Villager 6
+                    processSwitch(v6Index);//multitalent & villager 6 switch
+                case "Villager 7"://chosen role identified as Villager 7
+                    processSwitch(v7Index);//multitalent & villager 7 switch
+                case "Villager 8"://chosen role identified as Villager 8
+                    processSwitch(v8Index);//multitalent & villager 8 switch
+            }
+        }
+        //below method processes role switches for multitalentSwitch()
+        public void processSwitch(int switchWith){
+            int temp = multitalentIndex;//temporary variable for lossless switch
+            multitalentIndex = switchWith;//multitalentIndex now ‘moved’
+        	switchWith = temp;//chosen role’s index now ‘moved’
+        	Role tempRole = arrRoles[switchWith];//temp object for lossless switch
+        	arrRoles[switchWith] = arrRoles[multitalentIndex];//chosen role switched
+        	arrRoles[multitalentIndex] = tempRole;//mutltitalent switched
+        }
+        
         public void night()
         {
             dayStage = false;//no longer the day. Useful for the button handlers for target buttons
