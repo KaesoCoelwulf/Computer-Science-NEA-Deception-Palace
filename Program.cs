@@ -427,6 +427,28 @@ namespace DeceptionPalace
             }
         }
 
+        public void checkWinConditions()
+        {
+            //these assignments start at 0 since they are needed to tally up
+            //through the for loop how many of each role there are in the game
+            int kingCount = 0;
+            int assassinCount = 0;
+
+            foreach (int currentAlivePlayer in aliveList) {//goes through each element of aliveList
+                if (arrRoles[currentAlivePlayer].getRole() == "King")//if current player in aliveList is the King
+                {
+                    kingCount++;//increment kingCount
+                }
+                else if(arrRoles[currentAlivePlayer].getFaction() == "Assassin")//if current player in aliveList
+                {                                                               //is an Assassin faction member
+                    assassinCount++;//increment assassinCount
+                }
+            }
+
+            if(kingCount == 0) { assassinWon = true; winMet = true; }//King is dead, Assassin faction wins
+            else if(assassinCount == 0) { palaceWon = true; winMet = true; }//All Assassin faction dead, Palace wins
+        }
+
         public void processTarget(int targIndex)
         {//targIndex parameter containing index of player targeted
             if (dayStage)
@@ -510,6 +532,32 @@ namespace DeceptionPalace
                 night();
             }
         }
+
+        public void checkJesterWin(int executedPlayer)
+        {
+            winMet = false;//iteration 2: jester isn't in the game yet so this subroutine will never make winMet true
+        }
+
+        public void gameEnd()
+        {
+            //converts the winning faction boolean into a string which can be referenced in a more modular way
+            identifyWinningFac();
+
+            updateEventText("The " + facWon + " wins!");
+
+            for (int playerIndex = 0; playerIndex < 9; playerIndex++)
+            { //this updates the text in the group box for each player so it displays their role next to their username
+                gameObj.groupBoxArray[playerIndex].Text = gameObj.groupBoxArray[playerIndex].Text + " - " + arrRoles[playerIndex].getRole();
+            }
+        }
+
+        public void identifyWinningFac()
+        {
+            if (palaceWon) { facWon = "Palace"; }//if the Palace faction won the game
+            else if (assassinWon) { facWon = "Assassin"; }//if the Assassin faction won the game
+            else if (jesterWon) { facWon = "Jester"; }//if the Jester won the game
+        }
+
 
         public static void updateEventText(string newText)//method that updates contents of eventTextbox
         { gameObj.eventTextbox.Text = newText; }
