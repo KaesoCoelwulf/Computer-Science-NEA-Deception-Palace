@@ -7,18 +7,18 @@ using System.Windows.Forms;
 namespace DeceptionPalace
 {
     static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            /// <summary>
-            /// The main entry point for the application.
-            /// </summary>
-            [STAThread]
-         static void Main()
-            {
-               Application.EnableVisualStyles();
-               Application.SetCompatibleTextRenderingDefault(false);
-               Application.Run(new mainGameForm());
-            }
-         }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new mainGameForm());
+        }
+    }
     class Game
     {
 
@@ -72,20 +72,34 @@ namespace DeceptionPalace
         private int playerCounter;//integer used to cycle through player indexes 
         private bool prelimDone;//boolean that tells whether or not all the preliminary votes of a round have been done
 
+        //method below returns boolean kingSpecialDone
+        public bool getKingSpecialDone() { return kingSpecialDone; }
+
         //method below returns the length of arrRoles
         public int getRolesAmount() { return arrRoles.Length; }
 
         //method below simply returns ALIVEINDEX for game initialising purposes
         public int getALIVEINDEX() { return ALIVEINDEX; }
+        //method below simply returns DEADINDEX for sprite changing purposes
+        public int getDEADINDEX() { return DEADINDEX; }
 
+        public void setAliveStatus(int setStatusOf, bool isAlive)
+        {
+            arrRoles[setStatusOf].setAlive(isAlive);//calls setter in Role to update aliveStatus of specified player
+            updateGroupBox(setStatusOf, arrSprites[DEADINDEX, setStatusOf]);//updates the picture box containing the sprite in mainGameForm
+        }
         public string getRole(int playerIndex) { return arrRoles[playerIndex].getRole(); }
         //above method returns the string of the player's role
 
         //below method returns the alive status of the player
-        public string getAliveStatus(int playerIndex) {
-            if (arrRoles[playerIndex].getAlive() == true) {
+        public string getAliveStatus(int playerIndex)
+        {
+            if (arrRoles[playerIndex].getAlive() == true)
+            {
                 return "true";
-            } else { 
+            }
+            else
+            {
                 return "false";
             }
         }
@@ -101,7 +115,8 @@ namespace DeceptionPalace
         public string getPlayer(int playerIndex) { return arrPlayers[playerIndex]; }
         //above method returns the username of the player at index playerIndex
 
-        public Game(string callingUser, string callingCode) {
+        public Game(string callingUser, string callingCode)
+        {
             hostUser = callingUser;//useful in iteration 4 onwards
             arrPlayers[0] = "firstPlayer";//filler assignments until profiles added in iteration 3
             arrPlayers[1] = "secondPlayer";
@@ -124,9 +139,9 @@ namespace DeceptionPalace
                 arrSprites[ALIVEINDEX, k] = Properties.Resources.pinkWomanAlive;
                 arrSprites[DEADINDEX, k] = Properties.Resources.pinkWomanDead;
             }
-            
+
             code = callingCode;//useful in iteration 4 onwards
-            
+
             winMet = false;//these four variables are preset to false because no one can have won 
             palaceWon = false;//before the game has actually begun
             jesterWon = false;
@@ -135,7 +150,8 @@ namespace DeceptionPalace
             generateRoles();
         }
 
-        public void generateRoles() {
+        public void generateRoles()
+        {
 
             generateGuaranteed();//assigns random indexes to the index variables of guaranteed roles
             generateOptional();//asigns random indexes to the index variables of optional roles
@@ -219,7 +235,7 @@ namespace DeceptionPalace
                     case "Villager 8":
                         v8Index = rdmNum;
                         break;
-                    
+
                 }
             }
         }
@@ -272,6 +288,14 @@ namespace DeceptionPalace
             updateEventText("The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".");
             kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
         }
+
+        public void preGameTarget(int indexOfTarget)
+        {
+            kingSpecialAbility(indexOfTarget);//King uses their ability on role in index 9, 10 or 11
+            updateEventText("You are " + arrPlayers[0] + " and you are the " + arrRoles[0].getRole() +
+                    ". Choose who you want to target.");//instructions for first player in night(). This leads right before
+                                                        //night() is called in the button handlers btn1st/2nd/3rdRole_Click
+        }
         //processes the input of the multitalent by identifying the right parameters for processSwitch()
         //public void multitalentSwitch(int indxInt)
         //{
@@ -307,19 +331,22 @@ namespace DeceptionPalace
         //    arrRoles[switchWith] = arrRoles[multitalentIndex];//chosen role switched
         //    arrRoles[multitalentIndex] = tempRole;//mutltitalent switched
         //}
-        
+
         public void night()
         {
             dayStage = false;//no longer the day. Useful for the button handlers for target buttons
-            if (playerCounter <= 8){//some players might still need to input their targets
+            if (playerCounter <= 8)
+            {//some players might still need to input their targets
                 string playerRole;
                 playerRole = this.arrRoles[playerCounter].getRole();
                 //below if statement validates whether or not the player should be allowed to input a target or not
-                if ((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker") 
-                                                                                                && arrRoles[playerCounter].getAlive()){
+                if ((playerRole == "Assassin" || playerRole == "Sentinel" || playerRole == "Chemist" || playerRole == "Blocker")
+                                                                                                && arrRoles[playerCounter].getAlive())
+                {
                     //button handlers handle inputs
                     updateEventText("You are " + arrPlayers[playerCounter] + ", the " + playerRole + ". Choose your target.");
-                }else
+                }
+                else
                 {//either the player has no ability or is dead - can't input a target
                     playerCounter++;//moves onto the next player
                     night();//recurses to see if this new player index is a valid player to input a target
@@ -330,6 +357,44 @@ namespace DeceptionPalace
                 playerCounter = 0;//resets playerCounter for its next use in prelimVote()
                 processAbilities();
                 day();//moves to next stage of the game
+            }
+        }
+        //below method processes all the abilities on all chosen targets
+        public void processAbilities()
+        {
+            //uses the Assassin's ability on their target
+            assassinAbility(targets[assassinIndex]);
+        }
+        //below method executes the Assassin's ability based on contextual factors
+        public void assassinAbility(int targetIndex) {
+            bool killTarget = false;//true if the program permits the target to die
+            bool kingIsTarg = false;//true if the King is the Assassin's target
+            bool onePlusBgAlive = false;//true if there is one or more bodyguard alive
+
+            if (targetIndex == kingIndex) { kingIsTarg = true; }//compares targetIndex with the King's index
+
+            //below if statement looks at both bodyguards and their 'availability'
+            if (arrRoles[bg1Index].getAlive() || (bg2Index < 9 && arrRoles[bg2Index].getAlive()))
+            {
+                onePlusBgAlive = true;
+            }
+
+            if (!kingIsTarg)//Assassin's target isn't the King
+            {
+                killTarget = true;//because nothing can stop you assassin if their target
+                                    //if their target isn't the King in iteration 2
+            }else if (!onePlusBgAlive)//Assassin's target is the King and there are no alive bodyguards
+            {
+                killTarget = true;//because you’re targeting the King but
+                                  //he has no bodyguards alive
+            }
+
+            if (killTarget)//program permits the assassin's target to die
+            {
+                setAliveStatus(targetIndex, false);//indicates that the target dies
+                //update lists
+                deadList.Add(targetIndex);
+                aliveList.Remove(targetIndex);
             }
         }
 
@@ -345,6 +410,20 @@ namespace DeceptionPalace
             else
             {//if win condition of any faction is met, game should end
                 gameEnd();//triggers post-game processes
+            }
+        }
+
+        public void checkNewDeaths()
+        {
+            //following if statement checks whether assassin's target ended the round being dead or
+            //alive, since the assassin's target is the only player to be able to die during the night
+            if (!arrRoles[targets[assassinIndex]].getAlive())//assassin's target did die
+            {   //display results of the night stage
+                updateEventText(arrPlayers[targets[assassinIndex]] + " was killed last night.");
+            }
+            else //assassin's target didn't die
+            {   //display results of the night stage
+                updateEventText("No one died last night.");
             }
         }
 
@@ -412,8 +491,8 @@ namespace DeceptionPalace
             //    arrRoles[sentinelIndex] = arrRoles[assassinIndex];
             //    arrRoles[assassinIndex] = tempRole;
             //}
-            //setting role aliveStatus attribute to false to indicate death
-            arrRoles[exeTarg].setAlive(false);
+            //setting role aliveStatus attribute to false to indicate death and update appearance of exeTarg's groupbox
+            setAliveStatus(exeTarg, false);
             //death processing and win condition checking
             checkJesterWin(exeTarg);
             checkWinConditions();
@@ -434,8 +513,15 @@ namespace DeceptionPalace
 
         public static void updateEventText(string newText)//method that updates contents of eventTextbox
         { gameObj.eventTextbox.Text = newText; }
+
+        //below method updates the appearance of a player's group box upon death
+        public static void updateGroupBox(int playerIndex, System.Drawing.Bitmap newSprite)
+        {
+            gameObj.picBoxArray[playerIndex].Image = newSprite;
+            gameObj.groupBoxArray[playerIndex].BackColor = System.Drawing.Color.DarkRed;
+        }
     }
-    
+
     class Role
     {
         private string roleName;
@@ -446,12 +532,12 @@ namespace DeceptionPalace
         public void setAlive(bool newStatus) { aliveStatus = newStatus; } //aliveStatus setter
         public bool getAlive() { return aliveStatus; } //aliveStatus getter
         public string getFaction() { return faction; } //faction getter
-        public Role (string nameOfRole, string fac) //constructor
+        public Role(string nameOfRole, string fac) //constructor
         {
             roleName = nameOfRole;
             faction = fac;
             aliveStatus = true;//all players begin the game alive, so this is pregenerated to alive
         }
     }
-    
+
 }
