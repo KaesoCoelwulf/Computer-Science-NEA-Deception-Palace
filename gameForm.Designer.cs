@@ -552,8 +552,5 @@ namespace DeceptionPalace
         public System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
         private System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
-       
-
-        
-    }
+  }
 }
