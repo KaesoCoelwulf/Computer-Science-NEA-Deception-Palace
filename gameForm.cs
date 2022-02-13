@@ -72,6 +72,36 @@ namespace DeceptionPalace
 
         }
 
+        private void btn1stRole_Click(object sender, EventArgs e)
+        {
+            gamePlayed.preGameTarget(9);//processes targeting the 10th role
+            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
+            {
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
+                //these buttons no longer needed for anything
+                gamePlayed.night();//night stage begins
+            }
+        }
+        private void btn2ndRole_Click(object sender, EventArgs e)
+        {
+            gamePlayed.preGameTarget(10);//processes targeting the 11th role
+            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
+            {
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
+                //these buttons no longer needed for anything
+                gamePlayed.night();//night stage begins
+            }
+        }
+        private void btn3rdRole_Click(object sender, EventArgs e)
+        {
+            gamePlayed.preGameTarget(11);//processes targeting the 12th role
+            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
+            {
+                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
+                //these buttons no longer needed for anything
+                gamePlayed.night();//night stage begins
+            }
+        }
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
             gamePlayed.processTarget(0);//processes all possible instances of a player targeting the first player
