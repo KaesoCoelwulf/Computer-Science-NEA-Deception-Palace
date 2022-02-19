@@ -77,6 +77,9 @@ namespace DeceptionPalace
             this.btn1stRole = new System.Windows.Forms.Button();
             this.btn2ndRole = new System.Windows.Forms.Button();
             this.btn3rdRole = new System.Windows.Forms.Button();
+            this.btnViewedKingsChoice = new System.Windows.Forms.Button();
+            this.btnViewedPrelimResults = new System.Windows.Forms.Button();
+            this.btnBeginPrelim = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.boxPlayer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerSprite1)).BeginInit();
@@ -157,6 +160,7 @@ namespace DeceptionPalace
             this.btnToTarget2.TabIndex = 1;
             this.btnToTarget2.Text = "Use Ability ";
             this.btnToTarget2.UseVisualStyleBackColor = false;
+            this.btnToTarget2.Click += new System.EventHandler(this.btnToTarget2_Click);
             // 
             // playerSprite2
             // 
@@ -188,6 +192,7 @@ namespace DeceptionPalace
             this.btnToTarget3.TabIndex = 1;
             this.btnToTarget3.Text = "Use Ability ";
             this.btnToTarget3.UseVisualStyleBackColor = false;
+            this.btnToTarget3.Click += new System.EventHandler(this.btnToTarget3_Click);
             // 
             // playerSprite3
             // 
@@ -219,6 +224,7 @@ namespace DeceptionPalace
             this.btnToTarget6.TabIndex = 1;
             this.btnToTarget6.Text = "Use Ability ";
             this.btnToTarget6.UseVisualStyleBackColor = false;
+            this.btnToTarget6.Click += new System.EventHandler(this.btnToTarget6_Click);
             // 
             // playerSprite6
             // 
@@ -250,6 +256,7 @@ namespace DeceptionPalace
             this.btnToTarget5.TabIndex = 1;
             this.btnToTarget5.Text = "Use Ability ";
             this.btnToTarget5.UseVisualStyleBackColor = false;
+            this.btnToTarget5.Click += new System.EventHandler(this.btnToTarget5_Click);
             // 
             // playerSprite5
             // 
@@ -281,6 +288,7 @@ namespace DeceptionPalace
             this.btnToTarget4.TabIndex = 1;
             this.btnToTarget4.Text = "Use Ability ";
             this.btnToTarget4.UseVisualStyleBackColor = false;
+            this.btnToTarget4.Click += new System.EventHandler(this.btnToTarget4_Click);
             // 
             // playerSprite4
             // 
@@ -312,6 +320,7 @@ namespace DeceptionPalace
             this.btnToTarget9.TabIndex = 1;
             this.btnToTarget9.Text = "Use Ability ";
             this.btnToTarget9.UseVisualStyleBackColor = false;
+            this.btnToTarget9.Click += new System.EventHandler(this.btnToTarget9_Click);
             // 
             // playerSprite9
             // 
@@ -343,6 +352,7 @@ namespace DeceptionPalace
             this.btnToTarget8.TabIndex = 1;
             this.btnToTarget8.Text = "Use Ability ";
             this.btnToTarget8.UseVisualStyleBackColor = false;
+            this.btnToTarget8.Click += new System.EventHandler(this.btnToTarget8_Click);
             // 
             // playerSprite8
             // 
@@ -374,6 +384,7 @@ namespace DeceptionPalace
             this.btnToTarget7.TabIndex = 1;
             this.btnToTarget7.Text = "Use Ability ";
             this.btnToTarget7.UseVisualStyleBackColor = false;
+            this.btnToTarget7.Click += new System.EventHandler(this.btnToTarget7_Click);
             // 
             // playerSprite7
             // 
@@ -403,31 +414,34 @@ namespace DeceptionPalace
             // 
             // stageLabel
             // 
+            this.stageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stageLabel.AutoSize = true;
             this.stageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stageLabel.Location = new System.Drawing.Point(82, 31);
+            this.stageLabel.Location = new System.Drawing.Point(146, 17);
             this.stageLabel.Name = "stageLabel";
             this.stageLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.stageLabel.Size = new System.Drawing.Size(112, 29);
+            this.stageLabel.Size = new System.Drawing.Size(70, 29);
             this.stageLabel.TabIndex = 8;
-            this.stageLabel.Text = "Pregame";
-            this.stageLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.stageLabel.Text = "Night";
+            this.stageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // stageNumLabel
             // 
             this.stageNumLabel.AutoSize = true;
             this.stageNumLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stageNumLabel.Location = new System.Drawing.Point(190, 31);
+            this.stageNumLabel.Location = new System.Drawing.Point(146, 46);
             this.stageNumLabel.Name = "stageNumLabel";
-            this.stageNumLabel.Size = new System.Drawing.Size(21, 29);
+            this.stageNumLabel.Size = new System.Drawing.Size(26, 29);
             this.stageNumLabel.TabIndex = 9;
-            this.stageNumLabel.Text = "-";
+            this.stageNumLabel.Text = "1";
             // 
             // stageIcon
             // 
-            this.stageIcon.Location = new System.Drawing.Point(217, 23);
+            this.stageIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.stageIcon.Image = global::DeceptionPalace.Properties.Resources.nightIcon;
+            this.stageIcon.Location = new System.Drawing.Point(172, 50);
             this.stageIcon.Name = "stageIcon";
-            this.stageIcon.Size = new System.Drawing.Size(50, 50);
+            this.stageIcon.Size = new System.Drawing.Size(38, 29);
             this.stageIcon.TabIndex = 10;
             this.stageIcon.TabStop = false;
             // 
@@ -439,6 +453,7 @@ namespace DeceptionPalace
             this.btn1stRole.TabIndex = 11;
             this.btn1stRole.Text = "Choose Role 1";
             this.btn1stRole.UseVisualStyleBackColor = true;
+            this.btn1stRole.Click += new System.EventHandler(this.btn1stRole_Click);
             // 
             // btn2ndRole
             // 
@@ -448,6 +463,7 @@ namespace DeceptionPalace
             this.btn2ndRole.TabIndex = 12;
             this.btn2ndRole.Text = "Choose Role 2";
             this.btn2ndRole.UseVisualStyleBackColor = true;
+            this.btn2ndRole.Click += new System.EventHandler(this.btn2ndRole_Click);
             // 
             // btn3rdRole
             // 
@@ -457,6 +473,37 @@ namespace DeceptionPalace
             this.btn3rdRole.TabIndex = 13;
             this.btn3rdRole.Text = "Choose Role 3";
             this.btn3rdRole.UseVisualStyleBackColor = true;
+            this.btn3rdRole.Click += new System.EventHandler(this.btn3rdRole_Click);
+            // 
+            // btnViewedKingsChoice
+            // 
+            this.btnViewedKingsChoice.Location = new System.Drawing.Point(112, 218);
+            this.btnViewedKingsChoice.Name = "btnViewedKingsChoice";
+            this.btnViewedKingsChoice.Size = new System.Drawing.Size(120, 39);
+            this.btnViewedKingsChoice.TabIndex = 14;
+            this.btnViewedKingsChoice.Text = "Proceed to Night stage";
+            this.btnViewedKingsChoice.UseVisualStyleBackColor = true;
+            this.btnViewedKingsChoice.Click += new System.EventHandler(this.btnViewedKingsChoice_Click);
+            // 
+            // btnViewedPrelimResults
+            // 
+            this.btnViewedPrelimResults.Location = new System.Drawing.Point(112, 226);
+            this.btnViewedPrelimResults.Name = "btnViewedPrelimResults";
+            this.btnViewedPrelimResults.Size = new System.Drawing.Size(120, 23);
+            this.btnViewedPrelimResults.TabIndex = 15;
+            this.btnViewedPrelimResults.Text = "Proceed to execution";
+            this.btnViewedPrelimResults.UseVisualStyleBackColor = true;
+            this.btnViewedPrelimResults.Click += new System.EventHandler(this.btnViewedPrelimResults_Click);
+            // 
+            // btnBeginPrelim
+            // 
+            this.btnBeginPrelim.Location = new System.Drawing.Point(112, 226);
+            this.btnBeginPrelim.Name = "btnBeginPrelim";
+            this.btnBeginPrelim.Size = new System.Drawing.Size(120, 23);
+            this.btnBeginPrelim.TabIndex = 16;
+            this.btnBeginPrelim.Text = "Begin Preliminary Vote";
+            this.btnBeginPrelim.UseVisualStyleBackColor = true;
+            this.btnBeginPrelim.Click += new System.EventHandler(this.btnBeginPrelim_Click);
             // 
             // mainGameForm
             // 
@@ -464,6 +511,9 @@ namespace DeceptionPalace
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(874, 617);
+            this.Controls.Add(this.btnBeginPrelim);
+            this.Controls.Add(this.btnViewedPrelimResults);
+            this.Controls.Add(this.btnViewedKingsChoice);
             this.Controls.Add(this.btn3rdRole);
             this.Controls.Add(this.btn2ndRole);
             this.Controls.Add(this.btn1stRole);
@@ -512,9 +562,9 @@ namespace DeceptionPalace
         #endregion
 
         private System.Diagnostics.EventLog eventLog1;
-        private System.Windows.Forms.PictureBox stageIcon;
-        private System.Windows.Forms.Label stageNumLabel;
-        private System.Windows.Forms.Label stageLabel;
+        public System.Windows.Forms.PictureBox stageIcon;
+        public System.Windows.Forms.Label stageNumLabel;
+        public System.Windows.Forms.Label stageLabel;
         public System.Windows.Forms.RichTextBox eventTextbox;
         private System.Windows.Forms.RichTextBox roleTextbox;
         private System.Windows.Forms.GroupBox boxPlayer9;
@@ -547,10 +597,14 @@ namespace DeceptionPalace
         private System.Windows.Forms.Button btn3rdRole;
         private System.Windows.Forms.Button btn2ndRole;
         private System.Windows.Forms.Button btn1stRole;
+        public Button btnViewedPrelimResults;
+        private Button btnViewedKingsChoice;
+        public Button btnBeginPrelim;
 
         public System.Windows.Forms.GroupBox[] groupBoxArray = new System.Windows.Forms.GroupBox[9];//array holding the 9 group boxes for players so they can be referenced efficiently without using selection
         public System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
-        private System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
+        public System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
-  }
+        
+    }
 }
