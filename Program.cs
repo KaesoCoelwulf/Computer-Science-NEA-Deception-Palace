@@ -22,7 +22,7 @@ namespace DeceptionPalace
     class Game
     {
 
-        private static mainGameForm gameObj = Application.OpenForms.OfType<mainGameForm>().FirstOrDefault();//link to the form the class operates in
+        private static mainGameForm gameObj = Application.OpenForms.OfType<mainGameForm>().FirstOrDefault(); //link to the form the class operates in, assigned the first value of that form type already booted up
         private string code;//for future iterations, holds the 4 letter code to reference a game
         private string[] arrPlayers = new string[12];//array of players' usernames in order to match their corresponding role in arrRoles
         private Role[] arrRoles = new Role[12];//array of the corresponding roles in index positions to arrPlayers
@@ -71,7 +71,24 @@ namespace DeceptionPalace
         private bool dayStage;//boolean that holds true when its the day stage and false when its the night stage
         private int playerCounter;//integer used to cycle through player indexes 
         private bool prelimDone;//boolean that tells whether or not all the preliminary votes of a round have been done
+        private int loopCount;//logs what number of each stage it is
 
+        //below method returns playerCounter
+        public int getPlayerCounter() { return playerCounter; }
+
+        //below method is kingIndex's getter method, needed by gameForm
+        //since btnViewedPrelimResults needs to know the king's name, which
+        //is retrieved using kingIndex
+        public int getKingIndex()
+        {
+            return kingIndex;
+        }
+
+        //method below sets the reference of gameObj
+        public void setForm(mainGameForm formToBeSet)
+        {
+            gameObj = formToBeSet;
+        }
         //method below returns boolean kingSpecialDone
         public bool getKingSpecialDone() { return kingSpecialDone; }
 
@@ -87,6 +104,9 @@ namespace DeceptionPalace
         {
             arrRoles[setStatusOf].setAlive(isAlive);//calls setter in Role to update aliveStatus of specified player
             updateGroupBox(setStatusOf, arrSprites[DEADINDEX, setStatusOf]);//updates the picture box containing the sprite in mainGameForm
+            gameObj.buttonArray[setStatusOf].Hide();//hides the button when the player dies
+            gameObj.buttonArray[setStatusOf] = null;//prevents dead people from being targeted as a result of showButtons()
+            
         }
         public string getRole(int playerIndex) { return arrRoles[playerIndex].getRole(); }
         //above method returns the string of the player's role
@@ -128,6 +148,7 @@ namespace DeceptionPalace
             arrPlayers[7] = "eighthPlayer";
             arrPlayers[8] = "ninethPlayer";
             kingSpecialDone = false;
+            loopCount = 1;
             WININDEX = 0;//this variable and the 4 below are category index constants for arrStats/Sprites
             LOSTINDEX = 1;
             ALIVEINDEX = 0;
@@ -138,6 +159,7 @@ namespace DeceptionPalace
             {       //for loop initialises contents of arrSprites until customisability enabled
                 arrSprites[ALIVEINDEX, k] = Properties.Resources.pinkWomanAlive;
                 arrSprites[DEADINDEX, k] = Properties.Resources.pinkWomanDead;
+                aliveList.Add(k);//also adds all the player's indexes to aliveList
             }
 
             code = callingCode;//useful in iteration 4 onwards
@@ -272,11 +294,9 @@ namespace DeceptionPalace
 
         public void gameloop()
         {
-            updateEventText("You are " + arrPlayers[kingIndex] +
-                ", and you are the King. Choose a role not in play to check.");
-            //If you can't solve this problem, just change eventTextbox's protection level to public
-            //PERHAPS IMPLEMENT GAMELOOP AS AN EVENT FOR LOADING UP THE FORM
-            //scrap that :(
+            string strInstructions = "You are " + arrPlayers[kingIndex] +
+                ", and you are the King. Choose a role not in play to check.";//intructions for kingSpecialAbility stored
+            updateEventText(strInstructions);//instructions for kingSpecialAbility output
         }
 
         public void kingSpecialAbility(int chosenRole)
@@ -292,9 +312,6 @@ namespace DeceptionPalace
         public void preGameTarget(int indexOfTarget)
         {
             kingSpecialAbility(indexOfTarget);//King uses their ability on role in index 9, 10 or 11
-            updateEventText("You are " + arrPlayers[0] + " and you are the " + arrRoles[0].getRole() +
-                    ". Choose who you want to target.");//instructions for first player in night(). This leads right before
-                                                        //night() is called in the button handlers btn1st/2nd/3rdRole_Click
         }
         //processes the input of the multitalent by identifying the right parameters for processSwitch()
         //public void multitalentSwitch(int indxInt)
@@ -334,6 +351,7 @@ namespace DeceptionPalace
 
         public void night()
         {
+            prelimDone = false;//anticipates the next day stage
             dayStage = false;//no longer the day. Useful for the button handlers for target buttons
             if (playerCounter <= 8)
             {//some players might still need to input their targets
@@ -400,12 +418,19 @@ namespace DeceptionPalace
 
         public void day()
         {
+            //below 3 subroutines update the info as to what stage it is
+            updateStageIcon(Properties.Resources.dayIcon);
+            updateStageLbl("Day");
+            updateStageNum(loopCount);
             dayStage = true;//is now day, allows button handlers to process day inputs correctly
             checkNewDeaths();//updates aliveList and deadList, and outputs the deaths that have occurred
             checkWinConditions();//updates winMet to true if any win condition has been met
             if (!winMet)
             {//validates that no win conditions have been met so the game should continue
                 updateEventText("Please discuss your theories, and begin inputing people's preliminary votes for execution when you're ready.");
+                gameObj.hideButtons();//force valid inputs by removing all invalid inputs at this point
+                gameObj.btnBeginPrelim.Show();//show the only valid input for this point in the game
+                playerCounter = aliveList[0];//the first alive player in the game
             }
             else
             {//if win condition of any faction is met, game should end
@@ -474,11 +499,10 @@ namespace DeceptionPalace
         {
             arrVotes[voteFor]++;//increments the votes for player specified by the button click
             playerCounter++;//playerCounter increments so rest of the subroutine prepares for the next button click
-            if (playerCounter == 9)
+            if (playerCounter >= 9)
             {//prelimVote should end
-                prelimDone = true;//makes next button click trigger executing()
-                playerCounter = 0;//resets playerCounter in time for the night stage
-                updateEventText("You are " + arrPlayers[kingIndex] + ". Who do you want to execute?");
+
+                prelimOver(); //program may proceed to executing() when user is ready
             }
             else
             {//continue prelimVote
@@ -491,12 +515,26 @@ namespace DeceptionPalace
                     do
                     {
                         playerCounter++;//looks at next player
-                    } while (playerCounter > 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
-                    if (playerCounter > 9)
+                    } while (playerCounter < 9 && !arrRoles[playerCounter].getAlive());//stops if valid player found or no players left
+                    if (playerCounter < 9)
                     {//if less than 9, it is a valid player
                         updateEventText("You are " + arrPlayers[playerCounter] + ", who do you want to vote for?");
                     }
+                    else { prelimOver(); } //prevents program anticipating another input
                 }
+            }
+        }
+        //to be called when prelimVote() should end
+        public void prelimOver()
+        {
+            prelimDone = true;//makes next button click trigger executing()
+            playerCounter = aliveList[0];//resets playerCounter in time for the night stage
+            //toggles the necessary buttons to force a valid input
+            gameObj.hideButtons(); gameObj.btnViewedPrelimResults.Show();
+            for (int playerIndex = 0; playerIndex < 9; playerIndex++)
+            { //this updates the text in the group box for each player so it displays their votes next to their username
+               gameObj.groupBoxArray[playerIndex].Text = gameObj.groupBoxArray[playerIndex].Text + " - " + arrVotes[playerIndex];
+               arrVotes[playerIndex] = 0;//resets arrVotes after using the final contents
             }
         }
 
@@ -516,10 +554,10 @@ namespace DeceptionPalace
             //setting role aliveStatus attribute to false to indicate death and update appearance of exeTarg's groupbox
             setAliveStatus(exeTarg, false);
             //death processing and win condition checking
-            checkJesterWin(exeTarg);
-            checkWinConditions();
             deadList.Append(exeTarg);
             aliveList.Remove(exeTarg);
+            checkJesterWin(exeTarg);
+            checkWinConditions();
             //output execution
             updateEventText(arrPlayers[exeTarg] + " was executed.");
             //check whether to continue game or not
@@ -529,6 +567,11 @@ namespace DeceptionPalace
             }
             else
             {
+                loopCount++;//moves onto the next stage cycle
+                //sets stage information to night stage stuff
+                updateStageIcon(Properties.Resources.nightIcon);
+                updateStageLbl("Night");
+                updateStageNum(loopCount);
                 night();
             }
         }
@@ -567,6 +610,20 @@ namespace DeceptionPalace
         {
             gameObj.picBoxArray[playerIndex].Image = newSprite;
             gameObj.groupBoxArray[playerIndex].BackColor = System.Drawing.Color.DarkRed;
+        }
+
+        //below methods update different parts of the stage indicators:
+        public static void updateStageLbl(string newText)//If it's day or night
+        {
+                gameObj.stageLabel.Text = newText;
+        }
+        public static void updateStageNum(int newNum)//What number day/night it is
+        {
+            gameObj.stageNumLabel.Text = newNum.ToString();
+        }
+        public static void updateStageIcon(System.Drawing.Bitmap newIcon)//The icon
+        {
+            gameObj.stageIcon.Image = newIcon;
         }
     }
 
