@@ -49,6 +49,11 @@ namespace DeceptionPalace
             buttonArray[6] = btnToTarget7;
             buttonArray[7] = btnToTarget8;
             buttonArray[8] = btnToTarget9;
+            //hide the initially hidden buttons since they might disrupt kingSpecialAbility:
+            hideButtons();
+            btnViewedKingsChoice.Hide();
+            btnViewedPrelimResults.Hide();
+            btnBeginPrelim.Hide();
 
             for (int i = 0; i < 9; i++)
             {
@@ -70,38 +75,58 @@ namespace DeceptionPalace
             MessageBox.Show("11: " + gamePlayed.getPlayer(10) + ": " + gamePlayed.getRole(10) + " " + gamePlayed.getFac(10) + " " + gamePlayed.getAliveStatus(10));
             MessageBox.Show("12: " + gamePlayed.getPlayer(11) + ": " + gamePlayed.getRole(11) + " " + gamePlayed.getFac(11) + " " + gamePlayed.getAliveStatus(11));
 
-            gamePlayed.gameloop();
+            gamePlayed.setForm(this);//sets reference of gameObj in the Game class to this form as 'this' refers to the current object
+            gamePlayed.gameloop();//initialises the processing of the game itself
+        }
+
+        //unhides all the target buttons of alive players
+        public void showButtons()
+        {
+            for(int playerIndex = 0; playerIndex < 9; playerIndex++)//for each player
+            {
+                if(buttonArray[playerIndex] != null)//checks that the player's button
+                {                                   //hasn't been removed from the array
+                    buttonArray[playerIndex].Show();//unhides the button if it hasn't
+                }
+            }
+        }
+        //hides all the target buttons
+        public void hideButtons()
+        {
+            btnToTarget1.Hide();
+            btnToTarget2.Hide();
+            btnToTarget3.Hide();
+            btnToTarget4.Hide();
+            btnToTarget5.Hide();
+            btnToTarget6.Hide();
+            btnToTarget7.Hide();
+            btnToTarget8.Hide();
+            btnToTarget9.Hide();
         }
 
         private void btn1stRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(9);//processes targeting the 10th role
-            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
-            {
-                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
-                //these buttons no longer needed for anything
-                gamePlayed.night();//night stage begins
-            }
+            
+            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
+            //these buttons no longer needed for anything
+            //btnViewedKingsChoice shown now since it is the only valid input afterwards
         }
         private void btn2ndRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(10);//processes targeting the 11th role
-            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
-            {
-                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
-                //these buttons no longer needed for anything
-                gamePlayed.night();//night stage begins
-            }
+            
+            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
+            //these buttons no longer needed for anything  
+            //btnViewedKingsChoice shown now since it is the only valid input afterwards
         }
         private void btn3rdRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(11);//processes targeting the 12th role
-            if (!gamePlayed.getKingSpecialDone())//only done if kingSpecialAbility completed
-            {
-                btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide();
-                //these buttons no longer needed for anything
-                gamePlayed.night();//night stage begins
-            }
+            
+            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
+            //these buttons no longer needed for anything
+            //btnViewedKingsChoice shown now since it is the only valid input afterwards
         }
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
@@ -148,5 +173,38 @@ namespace DeceptionPalace
             gamePlayed.processTarget(8);//processes all possible instances of a player targeting the ninth player
         }
 
+        private void btnViewedKingsChoice_Click(object sender, EventArgs e)
+        {
+            eventTextbox.Text = "You are " + gamePlayed.getPlayer(0) + " and you are the " + 
+                    gamePlayed.getRole(0) + ". Choose who you want to target.";
+                    //instructions for first player in night(). This leads right before
+                    //night() is called in the button handlers btn1st/2nd/3rdRole_Click
+            btnViewedKingsChoice.Hide();//button no longer needed                                                       
+            showButtons();//unhides all target buttons
+            gamePlayed.night();//proceed to night stage
+        }
+
+        private void btnViewedPrelimResults_Click(object sender, EventArgs e)
+        {   //hide this button, not needed anymore
+            btnViewedPrelimResults.Hide();
+            //instructions for executing()
+            eventTextbox.Text = "You are " + gamePlayed.getPlayer(gamePlayed.getKingIndex()) + 
+                ". Who do you want to execute?";
+            //unhide all the buttons now that they are valid inputs
+            showButtons();
+            for(int playerIndex = 0; playerIndex < 9; playerIndex++)
+            {   //resets the text in the groupbox for each player (i.e. removes their vote)
+                groupBoxArray[playerIndex].Text = gamePlayed.getPlayer(playerIndex);
+            }
+        }
+
+        private void btnBeginPrelim_Click(object sender, EventArgs e)
+        {
+            btnBeginPrelim.Hide();//button not needed anymore
+            showButtons();//unhides the target buttons now that they are valid inputs
+            //outputs instructions to eventTextbox
+            eventTextbox.Text = "You are " + gamePlayed.getPlayer(gamePlayed.getPlayerCounter()) +
+                ", who do you want to vote for?";
+        }
     }
 }
