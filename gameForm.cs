@@ -54,6 +54,7 @@ namespace DeceptionPalace
             btnViewedKingsChoice.Hide();
             btnViewedPrelimResults.Hide();
             btnBeginPrelim.Hide();
+            btnViewedSwitchResults.Hide();
 
             for (int i = 0; i < 9; i++)
             {
@@ -104,30 +105,42 @@ namespace DeceptionPalace
             btnToTarget9.Hide();
         }
 
+        //sets all the three pregame buttons hidden
+        public void setPreGameBtnsHidden()
+        {
+            btn1stRole.Hide();
+            btn2ndRole.Hide();
+            btn3rdRole.Hide();
+        }
+
+        //unhides btnViewedKingsChoice
+        public void showBtnViewedKingsChoice()
+        {
+            btnViewedKingsChoice.Show();
+        }
+
+        //unhides btnViewedSwitchResults
+        public void showBtnViewedSwitchResults()
+        {
+            btnViewedSwitchResults.Show();
+        }
+
         private void btn1stRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(9);//processes targeting the 10th role
-            
-            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
-            //these buttons no longer needed for anything
-            //btnViewedKingsChoice shown now since it is the only valid input afterwards
+                                        //for kingSpecialAbility or multitalentSwitch
         }
         private void btn2ndRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(10);//processes targeting the 11th role
-            
-            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
-            //these buttons no longer needed for anything  
-            //btnViewedKingsChoice shown now since it is the only valid input afterwards
+                                        //for kingSpecialAbility or multitalentSwitch
         }
         private void btn3rdRole_Click(object sender, EventArgs e)
         {
             gamePlayed.preGameTarget(11);//processes targeting the 12th role
-            
-            btn1stRole.Hide(); btn2ndRole.Hide(); btn3rdRole.Hide(); btnViewedKingsChoice.Show();
-            //these buttons no longer needed for anything
-            //btnViewedKingsChoice shown now since it is the only valid input afterwards
+                                         //for kingSpecialAbility or multitalentSwitch
         }
+
         private void btnToTarget1_Click(object sender, EventArgs e)
         {
             gamePlayed.processTarget(0);//processes all possible instances of a player targeting the first player
@@ -175,13 +188,23 @@ namespace DeceptionPalace
 
         private void btnViewedKingsChoice_Click(object sender, EventArgs e)
         {
-            eventTextbox.Text = "You are " + gamePlayed.getPlayer(0) + " and you are the " + 
+            if (gamePlayed.getMultitalentIndex() > 8) { //validates that multitalent is not in play
+                                                        //before skipping multitalentSwitch
+                eventTextbox.Text = "You are " + gamePlayed.getPlayer(0) + " and you are the " + 
                     gamePlayed.getRole(0) + ". Choose who you want to target.";
                     //instructions for first player in night(). This leads right before
                     //night() is called in the button handlers btn1st/2nd/3rdRole_Click
-            btnViewedKingsChoice.Hide();//button no longer needed                                                       
-            showButtons();//unhides all target buttons
-            gamePlayed.night();//proceed to night stage
+                btnViewedKingsChoice.Hide();//button no longer needed                                                       
+                showButtons();//unhides all target buttons
+                gamePlayed.night();//proceed to night stage
+            }
+            else
+            {   //instructions for the multitalent to complete their switch
+                eventTextbox.Text = "You are " + gamePlayed.getPlayer(gamePlayed.getMultitalentIndex()) +
+                    " and you are the Multitalent. Choose who you want to target.";
+                //toggles visibility of now necessary/unnecessary roles
+                btn1stRole.Show(); btn2ndRole.Show(); btn3rdRole.Show(); btnViewedKingsChoice.Hide();
+            }
         }
 
         private void btnViewedPrelimResults_Click(object sender, EventArgs e)
@@ -205,6 +228,17 @@ namespace DeceptionPalace
             //outputs instructions to eventTextbox
             eventTextbox.Text = "You are " + gamePlayed.getPlayer(gamePlayed.getPlayerCounter()) +
                 ", who do you want to vote for?";
+        }
+
+        private void btnViewedSwitchResults_Click(object sender, EventArgs e)
+        {
+            eventTextbox.Text = "You are " + gamePlayed.getPlayer(0) + " and you are the " +
+                    gamePlayed.getRole(0) + ". Choose who you want to target.";
+            //instructions for first player in night(). This leads right before
+            //night() is called in the button handlers btn1st/2nd/3rdRole_Click
+            btnViewedSwitchResults.Hide();//button no longer needed                                                       
+            showButtons();//unhides all target buttons
+            gamePlayed.night();//proceed to night stage
         }
     }
 }
