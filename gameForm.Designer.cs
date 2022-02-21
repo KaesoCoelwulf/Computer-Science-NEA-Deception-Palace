@@ -80,6 +80,7 @@ namespace DeceptionPalace
             this.btnViewedKingsChoice = new System.Windows.Forms.Button();
             this.btnViewedPrelimResults = new System.Windows.Forms.Button();
             this.btnBeginPrelim = new System.Windows.Forms.Button();
+            this.btnViewedSwitchResults = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.boxPlayer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerSprite1)).BeginInit();
@@ -477,17 +478,17 @@ namespace DeceptionPalace
             // 
             // btnViewedKingsChoice
             // 
-            this.btnViewedKingsChoice.Location = new System.Drawing.Point(112, 218);
+            this.btnViewedKingsChoice.Location = new System.Drawing.Point(112, 211);
             this.btnViewedKingsChoice.Name = "btnViewedKingsChoice";
             this.btnViewedKingsChoice.Size = new System.Drawing.Size(120, 39);
             this.btnViewedKingsChoice.TabIndex = 14;
-            this.btnViewedKingsChoice.Text = "Proceed to Night stage";
+            this.btnViewedKingsChoice.Text = "I have seen these results";
             this.btnViewedKingsChoice.UseVisualStyleBackColor = true;
             this.btnViewedKingsChoice.Click += new System.EventHandler(this.btnViewedKingsChoice_Click);
             // 
             // btnViewedPrelimResults
             // 
-            this.btnViewedPrelimResults.Location = new System.Drawing.Point(112, 226);
+            this.btnViewedPrelimResults.Location = new System.Drawing.Point(112, 224);
             this.btnViewedPrelimResults.Name = "btnViewedPrelimResults";
             this.btnViewedPrelimResults.Size = new System.Drawing.Size(120, 23);
             this.btnViewedPrelimResults.TabIndex = 15;
@@ -497,7 +498,7 @@ namespace DeceptionPalace
             // 
             // btnBeginPrelim
             // 
-            this.btnBeginPrelim.Location = new System.Drawing.Point(112, 226);
+            this.btnBeginPrelim.Location = new System.Drawing.Point(112, 218);
             this.btnBeginPrelim.Name = "btnBeginPrelim";
             this.btnBeginPrelim.Size = new System.Drawing.Size(120, 23);
             this.btnBeginPrelim.TabIndex = 16;
@@ -505,12 +506,23 @@ namespace DeceptionPalace
             this.btnBeginPrelim.UseVisualStyleBackColor = true;
             this.btnBeginPrelim.Click += new System.EventHandler(this.btnBeginPrelim_Click);
             // 
+            // btnViewedSwitchResults
+            // 
+            this.btnViewedSwitchResults.Location = new System.Drawing.Point(112, 210);
+            this.btnViewedSwitchResults.Name = "btnViewedSwitchResults";
+            this.btnViewedSwitchResults.Size = new System.Drawing.Size(120, 39);
+            this.btnViewedSwitchResults.TabIndex = 17;
+            this.btnViewedSwitchResults.Text = "Proceed to Night";
+            this.btnViewedSwitchResults.UseVisualStyleBackColor = true;
+            this.btnViewedSwitchResults.Click += new System.EventHandler(this.btnViewedSwitchResults_Click);
+            // 
             // mainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(874, 617);
+            this.Controls.Add(this.btnViewedSwitchResults);
             this.Controls.Add(this.btnBeginPrelim);
             this.Controls.Add(this.btnViewedPrelimResults);
             this.Controls.Add(this.btnViewedKingsChoice);
@@ -605,6 +617,6 @@ namespace DeceptionPalace
         public System.Windows.Forms.PictureBox[] picBoxArray = new System.Windows.Forms.PictureBox[9];//array holding the 9 picture boxes for players so they can be referenced efficiently without using selection
         public System.Windows.Forms.Button[] buttonArray = new System.Windows.Forms.Button[9];//array holding the 9 buttons for players so they can be referenced efficiently without using selection
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
-        
+        private Button btnViewedSwitchResults;
     }
 }
