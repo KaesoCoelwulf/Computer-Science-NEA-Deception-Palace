@@ -34,14 +34,14 @@ namespace DeceptionPalace
         private int ALIVEINDEX;//constant for the index of alive players in arrStats
         private int DEADINDEX;//constant for the index of dead players in arrStats
         private int kingIndex;//the index corresponds to the king in arrPlayers, arrRoles, arrSprites, targets
-        //private int blockerIndex;//the index corresponds to the blocker in arrPlayers, arrRoles, arrSprites, targets
+        private int blockerIndex;//the index corresponds to the blocker in arrPlayers, arrRoles, arrSprites, targets
         private int assassinIndex;//the index corresponds to the assassin in arrPlayers, arrRoles, arrSprites, targets
-        //private int chemistIndex;//the index corresponds to the chemist in arrPlayers, arrRoles, arrSprites, targets
-        //private int sentinelIndex;//the index corresponds to the sentinel in arrPlayers, arrRoles, arrSprites, targets
-        //private int multitalentIndex;//the index corresponds to the multitalent in arrPlayers, arrRoles, arrSprites, targets
+        private int chemistIndex;//the index corresponds to the chemist in arrPlayers, arrRoles, arrSprites, targets
+        private int sentinelIndex;//the index corresponds to the sentinel in arrPlayers, arrRoles, arrSprites, targets
+        private int multitalentIndex;//the index corresponds to the multitalent in arrPlayers, arrRoles, arrSprites, targets
         private int bg1Index;//the index corresponds to the first bodyguard in arrPlayers, arrRoles, arrSprites, targets
         private int bg2Index;//the index corresponds to the second bodyguard in arrPlayers, arrRoles, arrSprites, targets
-        //private int jesterIndex;//the index corresponds to the jester in arrPlayers, arrRoles, arrSprites, targets
+        private int jesterIndex;//the index corresponds to the jester in arrPlayers, arrRoles, arrSprites, targets
         private int v1Index;//the index corresponds to the first villager in arrPlayers, arrRoles, arrSprites, targets
         private int v2Index;//the index corresponds to the second villager in arrPlayers, arrRoles, arrSprites, targets
         private int v3Index;//the index corresponds to the third villager in arrPlayers, arrRoles, arrSprites, targets
@@ -72,6 +72,19 @@ namespace DeceptionPalace
         private int playerCounter;//integer used to cycle through player indexes 
         private bool prelimDone;//boolean that tells whether or not all the preliminary votes of a round have been done
         private int loopCount;//logs what number of each stage it is
+
+        //below method sets a boolean value to kingSpecialDone
+        //needed by btn1st/2nd/3rd_Click to decide what button
+        //in the form to unhide
+       public void setKingSpecialDone(bool newKingSpecialDone)
+        {
+            kingSpecialDone = newKingSpecialDone;
+        }
+
+
+        //below method returns multitalentIndex, needed by
+        //btnViewedKingsChoice_Click in gameForm.cs
+        public int getMultitalentIndex() { return multitalentIndex; }
 
         //below method returns playerCounter
         public int getPlayerCounter() { return playerCounter; }
@@ -186,7 +199,7 @@ namespace DeceptionPalace
             int rdmNum;
             string currentRole;
             Random rdm = new Random();//Random is a c# class that generates random outputs between certain arguments
-            string[] guaranteedRoles = { "King", "Bodyguard", "Assassin" };
+            string[] guaranteedRoles = { "King", "Bodyguard", "Assassin", "Sentinel", "Jester" };
             for (int n = 0; n < guaranteedRoles.Length; n++)
             {
                 rdmNum = rdm.Next(0, 9);//Outputs random number between 0 and 8
@@ -197,7 +210,7 @@ namespace DeceptionPalace
                 arrRoles[rdmNum] = fillerRole;
                 currentRole = guaranteedRoles[n];
 
-                switch (currentRole)
+                switch (currentRole)//assigning integers to the role indexes
                 {
                     case "King":
                         kingIndex = rdmNum;
@@ -208,6 +221,12 @@ namespace DeceptionPalace
                     case "Assassin":
                         assassinIndex = rdmNum;
                         break;
+                    case "Sentinel":
+                        sentinelIndex = rdmNum;
+                        break;
+                    case "Jester":
+                        jesterIndex = rdmNum;
+                        break;
                 }
             }
         }
@@ -217,7 +236,7 @@ namespace DeceptionPalace
             int rdmNum;
             string currentRole;
             Random rdm = new Random();//Random is a c# class that generates random outputs between certain arguments
-            string[] optionalRoles = { "Bodyguard", "Villager 1", "Villager 2", "Villager 3", "Villager 4", "Villager 5", "Villager 6", "Villager 7", "Villager 8" };
+            string[] optionalRoles = { "Bodyguard", "Villager 1", "Villager 2", "Villager 3", "Chemist", "Blocker", "Multitalent" };
             for (int i = 0; i < optionalRoles.Length; i++)
             {
                 rdmNum = rdm.Next(0, 12);//Outputs random number between 0 and 11
@@ -228,7 +247,7 @@ namespace DeceptionPalace
                 arrRoles[rdmNum] = fillerRole1;
                 currentRole = optionalRoles[i];
 
-                switch (currentRole)
+                switch (currentRole)//assigning integers to the role indexes
                 {
                     case "Bodyguard":
                         bg2Index = rdmNum;
@@ -242,22 +261,15 @@ namespace DeceptionPalace
                     case "Villager 3":
                         v3Index = rdmNum;
                         break;
-                    case "Villager 4":
-                        v4Index = rdmNum;
+                    case "Chemist":
+                        chemistIndex = rdmNum;
                         break;
-                    case "Villager 5":
-                        v5Index = rdmNum;
+                    case "Blocker":
+                        blockerIndex = rdmNum;
                         break;
-                    case "Villager 6":
-                        v6Index = rdmNum;
+                    case "Multitalent":
+                        multitalentIndex = rdmNum;
                         break;
-                    case "Villager 7":
-                        v7Index = rdmNum;
-                        break;
-                    case "Villager 8":
-                        v8Index = rdmNum;
-                        break;
-
                 }
             }
         }
@@ -271,11 +283,11 @@ namespace DeceptionPalace
             Role Villager1 = new Role("Villager", "Palace");
             Role Villager2 = new Role("Villager", "Palace");
             Role Villager3 = new Role("Villager", "Palace");
-            Role Villager4 = new Role("Villager", "Palace");
-            Role Villager5 = new Role("Villager", "Palace");
-            Role Villager6 = new Role("Villager", "Palace");
-            Role Villager7 = new Role("Villager", "Palace");
-            Role Villager8 = new Role("Villager", "Assassin");
+            Role Chemist = new Role("Chemist", "Palace");
+            Role Blocker = new Role("Blocker", "Palace");
+            Role Jester = new Role("Jester", "Jester");
+            Role Multitalent = new Role("Multitalent", "Palace");
+            Role Sentinel = new Role("Sentinel", "Assassin");
             Role Assassin = new Role("Assassin", "Assassin");
             //attributing roles to arrRoles based on index variables
             arrRoles[kingIndex] = King;
@@ -284,11 +296,11 @@ namespace DeceptionPalace
             arrRoles[v1Index] = Villager1;
             arrRoles[v2Index] = Villager2;
             arrRoles[v3Index] = Villager3;
-            arrRoles[v4Index] = Villager4;
-            arrRoles[v5Index] = Villager5;
-            arrRoles[v6Index] = Villager6;
-            arrRoles[v7Index] = Villager7;
-            arrRoles[v8Index] = Villager8;
+            arrRoles[chemistIndex] = Chemist;
+            arrRoles[blockerIndex] = Blocker;
+            arrRoles[jesterIndex] = Jester;
+            arrRoles[multitalentIndex] = Multitalent;
+            arrRoles[sentinelIndex] = Sentinel;
             arrRoles[assassinIndex] = Assassin;
         }
 
@@ -306,48 +318,62 @@ namespace DeceptionPalace
             else if (chosenRole == 10) { numberNotPlayed = "second"; }
             else { numberNotPlayed = "third"; }
             updateEventText("The " + numberNotPlayed + " role not in play is a " + arrRoles[chosenRole].getRole() + ".");
-            kingSpecialDone = true;//now multitalentSwitch can be completed in button handlers
+            kingSpecialDone = true;//now pressing a pregame button will run multitalentSwitch instead
         }
 
         public void preGameTarget(int indexOfTarget)
-        {
-            kingSpecialAbility(indexOfTarget);//King uses their ability on role in index 9, 10 or 11
+        {   
+            gameObj.setPreGameBtnsHidden();//hides the three pregame buttons
+            if (!kingSpecialDone) { 
+                kingSpecialAbility(indexOfTarget);//King uses their ability on role in index 9, 10 or 11
+                gameObj.showBtnViewedKingsChoice();//shows btnViewedKingsChoice
+                //only valid input of clicking btnViewedKingsChoice is now forced as the only button shown
+            }
+            else//validates that kingSpecialAbility has been run before multitalentSwitch is run
+            {
+                multitalentSwitch(indexOfTarget);//Multitalent switches with role in index 9/10/11
+                gameObj.showBtnViewedSwitchResults();//shows btnViewedSwitchResults
+                //only valid input of clicking btnViewedSwitchResults is now forced as the only button shown
+            }
         }
+
         //processes the input of the multitalent by identifying the right parameters for processSwitch()
-        //public void multitalentSwitch(int indxInt)
-        //{
-        //    switch (arrRoles[indxInt].getRole())
-        //    {//identify which role chosen
-        //        case "Bodyguard"://chosen role identified as Bodyguard
-        //            processSwitch(bg2Index);//multitalent & bodyguard switch
-        //       case "Villager 1"://chosen role identified as Villager 1
-        //            processSwitch(v1Index);//multitalent & villager 1 switch
-        //        case "Villager 2"://chosen role identified as Villager 2
-        //            processSwitch(v2Index);//multitalent & villager 2 switch
-        //        case "Villager 3"://chosen role identified as Villager 3
-        //            processSwitch(v3Index);//multitalent & villager 3 switch
-        //        case "Villager 4"://chosen role identified as Villager 4
-        //            processSwitch(v4Index);//multitalent & villager 4 switch
-        //        case "Villager 5"://chosen role identified as Villager 5
-        //            processSwitch(v5Index);//multitalent & villager 5 switch
-        //       case "Villager 6"://chosen role identified as Villager 6
-        //            processSwitch(v6Index);//multitalent & villager 6 switch
-        //        case "Villager 7"://chosen role identified as Villager 7
-        //            processSwitch(v7Index);//multitalent & villager 7 switch
-        //        case "Villager 8"://chosen role identified as Villager 8
-        //            processSwitch(v8Index);//multitalent & villager 8 switch
-        //   }
-        //}
+        public void multitalentSwitch(int indxInt)
+        {
+            switch (arrRoles[indxInt].getRole())
+            {//identify which role chosen
+                case "Bodyguard"://chosen role identified as Bodyguard
+                    processSwitch(bg2Index);//multitalent & bodyguard switch
+                    break;
+                case "Villager 1"://chosen role identified as Villager 1
+                    processSwitch(v1Index);//multitalent & villager 1 switch
+                    break;
+                case "Villager 2"://chosen role identified as Villager 2
+                    processSwitch(v2Index);//multitalent & villager 2 switch
+                    break;
+                case "Villager 3"://chosen role identified as Villager 3
+                    processSwitch(v3Index);//multitalent & villager 3 switch
+                    break;
+                case "Chemist"://chosen role identified as the Chemist
+                    processSwitch(chemistIndex);//multitalent & chemist switch
+                    break;
+                case "Blocker"://chosen role identified as the Blocker
+                    processSwitch(blockerIndex);//multitalent & blocker switch
+                    break;
+            }
+        }
         //below method processes role switches for multitalentSwitch()
-        //public void processSwitch(int switchWith)
-        //{
-        //    int temp = multitalentIndex;//temporary variable for lossless switch
-        //    multitalentIndex = switchWith;//multitalentIndex now ‘moved’
-        //    switchWith = temp;//chosen role’s index now ‘moved’
-        //    Role tempRole = arrRoles[switchWith];//temp object for lossless switch
-        //    arrRoles[switchWith] = arrRoles[multitalentIndex];//chosen role switched
-        //    arrRoles[multitalentIndex] = tempRole;//mutltitalent switched
-        //}
+        public void processSwitch(int switchWith)
+        {   //outputs what the result of multitalentSwitch will be
+            updateEventText("The multitalent has switched places with the" + arrRoles[switchWith].getRole());
+            //completes the switch
+            int temp = multitalentIndex;//temporary variable for lossless switch
+            multitalentIndex = switchWith;//multitalentIndex now ‘moved’
+            switchWith = temp;//chosen role’s index now ‘moved’
+            Role tempRole = arrRoles[switchWith];//temp object for lossless switch
+            arrRoles[switchWith] = arrRoles[multitalentIndex];//chosen role switched
+            arrRoles[multitalentIndex] = tempRole;//mutltitalent switched
+        }
 
         public void night()
         {
