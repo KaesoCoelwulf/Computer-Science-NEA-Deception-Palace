@@ -76,7 +76,7 @@ namespace DeceptionPalace
         //below method sets a boolean value to kingSpecialDone
         //needed by btn1st/2nd/3rd_Click to decide what button
         //in the form to unhide
-       public void setKingSpecialDone(bool newKingSpecialDone)
+        public void setKingSpecialDone(bool newKingSpecialDone)
         {
             kingSpecialDone = newKingSpecialDone;
         }
@@ -119,7 +119,7 @@ namespace DeceptionPalace
             updateGroupBox(setStatusOf, arrSprites[DEADINDEX, setStatusOf]);//updates the picture box containing the sprite in mainGameForm
             gameObj.buttonArray[setStatusOf].Hide();//hides the button when the player dies
             gameObj.buttonArray[setStatusOf] = null;//prevents dead people from being targeted as a result of showButtons()
-            
+
         }
         public string getRole(int playerIndex) { return arrRoles[playerIndex].getRole(); }
         //above method returns the string of the player's role
@@ -322,9 +322,10 @@ namespace DeceptionPalace
         }
 
         public void preGameTarget(int indexOfTarget)
-        {   
+        {
             gameObj.setPreGameBtnsHidden();//hides the three pregame buttons
-            if (!kingSpecialDone) { 
+            if (!kingSpecialDone)
+            {
                 kingSpecialAbility(indexOfTarget);//King uses their ability on role in index 9, 10 or 11
                 gameObj.showBtnViewedKingsChoice();//shows btnViewedKingsChoice
                 //only valid input of clicking btnViewedKingsChoice is now forced as the only button shown
@@ -399,18 +400,22 @@ namespace DeceptionPalace
             else
             {//all players have input their targets
                 playerCounter = 0;//resets playerCounter for its next use in prelimVote()
-                processAbilities();
-                day();//moves to next stage of the game
+                processAbilities();//executes all the abilities
+                gameObj.hideButtons();//hides all currently visible buttons
             }
         }
         //below method processes all the abilities on all chosen targets
         public void processAbilities()
         {
-            //uses the Assassin's ability on their target
+            //uses the Sentinel's and Assassin's ability on their targets
+            //taking the Chemist, Blocker and Bodyguard's abilities
+            //into account
             assassinAbility(targets[assassinIndex]);
+            sentinelAbility(targets[sentinelIndex]);
         }
         //below method executes the Assassin's ability based on contextual factors
-        public void assassinAbility(int targetIndex) {
+        public void assassinAbility(int targetIndex)
+        {
             bool killTarget = false;//true if the program permits the target to die
             bool kingIsTarg = false;//true if the King is the Assassin's target
             bool onePlusBgAlive = false;//true if there is one or more bodyguard alive
@@ -421,7 +426,7 @@ namespace DeceptionPalace
             bool chemistsTarg = false;//true if the chemist's target is also the assassin's
 
             if (targetIndex == kingIndex) { kingIsTarg = true; }//compares targetIndex with the King's index
-            if(targetIndex == targets[chemistIndex]) { chemistsTarg = true; }//compares chemist's target with targetIndex
+            if (targetIndex == targets[chemistIndex]) { chemistsTarg = true; }//compares chemist's target with targetIndex
 
             //below if statement looks at both bodyguards and their 'availability'
             if (arrRoles[bg1Index].getAlive() || (bg2Index < 9 && arrRoles[bg2Index].getAlive()))
@@ -429,42 +434,47 @@ namespace DeceptionPalace
                 onePlusBgAlive = true;
             }
             //below if statement looks to see if both bodyguards are alive and in play
-            if (bg2Index < 9 && arrRoles[bg1Index].getAlive() && arrRoles[bg2Index].getAlive()){
+            if (bg2Index < 9 && arrRoles[bg1Index].getAlive() && arrRoles[bg2Index].getAlive())
+            {
                 twoBgAlive = true;
             }
-            
-            int c = targets[blockerIndex];//holds blocker's target, used for comparison in switch statement
-            //switch statement below looks at the blocker's target and look to set one of the blocker booleans to true
-            switch(c){
-                case bg1Index://blocker's target is the first bodyguard
-                    blockerTargBg = true;
-                    break;
-                case bg2Index://blocker's target is the second bodyguard
-                    blockerTargBg = true;
-                    break;
-                case chemistIndex://blocker's target is the chemist
-                    blockerTargChem = true;
-                    break;
-                case assassinIndex://blocker's target is the assassin
-                    blockerTargYou = true;
-                    break;
-                default://blocker's target is not a boydguard, chemist or assassin
-                    break;//no blocker boolean is set to true
+
+            int blockerTarget = targets[blockerIndex];//holds blocker's target, used for comparison in switch statement
+          
+            //if statement below looks at the blocker's target and look to set one of the blocker booleans to true
+            if(blockerTarget == bg1Index || blockerTarget == bg2Index)
+            {//blocker's target is a bodyguard, blockerTargBg set to true
+                blockerTargBg = true;
+            } else if (blockerTarget == chemistIndex)
+            {//blocker's target is chemist, blockerTargChem set to true
+                blockerTargChem = true;
+            } else if (blockerTarget == assassinIndex)
+            {//blocker's target is assassin, blockerTargYou set to true
+                blockerTargYou = true;
             }
 
             if (chemistsTarg)//chemist's target is healed?
             {
-               if(blockerTargChem){//chemist's target isn't healed
-                    if(!kingIsTarg){//no bodyguards will save the target
+                if (blockerTargChem)
+                {//chemist's target isn't healed
+                    if (!kingIsTarg)
+                    {//no bodyguards will save the target
                         killTarget = true;//nothing to prevent target from dying
-                    }else if(!onePlusBgAlive){//no bodyguards alive 
-                        killTarget = true//no bodyguard alive to save the King
                     }
-               }
-            }else if(!blockerTargYou){//assassin isn't the target of the blocker
-                if(!kingIsTarg){//king isn' the target, no bodyguards to save target
+                    else if (!onePlusBgAlive)
+                    {//no bodyguards alive 
+                        killTarget = true;//no bodyguard alive to save the King
+                    }
+                }
+            }
+            else if (!blockerTargYou)
+            {//assassin isn't the target of the blocker
+                if (!kingIsTarg)
+                {//king isn' the target, no bodyguards to save target
                     killTarget = true;//since nothing to prevent target from dying
-                }else if(!twoBgAlive && !(blockerTargBg ^ onePlusBgAlive)){//one blocked bodyguard or no bodyguard alive
+                }
+                else if (!twoBgAlive && !(blockerTargBg ^ onePlusBgAlive))
+                {//one blocked bodyguard or no bodyguard alive
                     killTarget = true;//since none of the King's bodyguards can save them
                 }
             }
@@ -476,6 +486,51 @@ namespace DeceptionPalace
                 deadList.Add(targetIndex);
                 aliveList.Remove(targetIndex);
             }
+        }
+
+        public void sentinelAbility(int targetIndex)
+        {
+            List<string> visitorsList = new List<string>();//list will fill up with players who targeted the sentinel's target
+            if(targets[blockerIndex] != sentinelIndex)//sentinel isn't blocked
+            {
+                if(targets[blockerIndex] == targetIndex)//blocker visited sentinel's target
+                {
+                    visitorsList.Add(arrPlayers[blockerIndex]);
+                }
+                if(targets[assassinIndex] == targetIndex)//assassin visited sentinel's target
+                {
+                    visitorsList.Add(arrPlayers[assassinIndex]);
+                }
+                if(targets[chemistIndex] == targetIndex)//chemist visited sentinel's target
+                {
+                    visitorsList.Add(arrPlayers[chemistIndex]);
+                }
+                if(targetIndex == kingIndex)//king is sentinel's target
+                {
+                    if(arrRoles[bg1Index].getAlive() && targets[blockerIndex] != bg1Index)//bodyguard 1 visited sentinel's target
+                    {
+                        visitorsList.Add(arrPlayers[bg1Index]);
+                    }
+                    if(arrRoles[bg2Index].getAlive() && targets[blockerIndex] != bg2Index && bg2Index < 9)//bodyguard 2 visited sentinel's target
+                    {
+                        visitorsList.Add(arrPlayers[bg2Index]);
+                    }
+                }
+
+                if (visitorsList.Count() > 0)//output sentinelAbility results
+                {   //next line outputs "The following players visited <sentinel's target> last night: <first player in visitorsList>"
+                    updateEventText("The following players visited " + arrPlayers[targetIndex] + " last night: " + visitorsList[0]);
+                    //for loop updates eventTextbox without erasing its contents
+                    for (int visitorsContents = 1; visitorsContents < visitorsList.Count(); visitorsContents++) {
+                        updateEventText(gameObj.eventTextbox.Text + ", " + arrPlayers[visitorsContents]);
+                    }
+                    //just adds a nice full stop :)
+                    updateEventText(gameObj.eventTextbox.Text + ".");
+                }
+            }
+            gameObj.btnViewedSentinelResults.Show();//shows btnViewedSentinelResults. Back in the night() subroutine,
+                                                    //all other visible buttons are hidden, forcing this button to be
+                                                    //pressed, since it is the only valid input at this point in the program
         }
 
         public void day()
@@ -521,19 +576,20 @@ namespace DeceptionPalace
             int kingCount = 0;
             int assassinCount = 0;
 
-            foreach (int currentAlivePlayer in aliveList) {//goes through each element of aliveList
+            foreach (int currentAlivePlayer in aliveList)
+            {//goes through each element of aliveList
                 if (arrRoles[currentAlivePlayer].getRole() == "King")//if current player in aliveList is the King
                 {
                     kingCount++;//increment kingCount
                 }
-                else if(arrRoles[currentAlivePlayer].getFaction() == "Assassin")//if current player in aliveList
+                else if (arrRoles[currentAlivePlayer].getFaction() == "Assassin")//if current player in aliveList
                 {                                                               //is an Assassin faction member
                     assassinCount++;//increment assassinCount
                 }
             }
 
-            if(kingCount == 0) { assassinWon = true; winMet = true; }//King is dead, Assassin faction wins
-            else if(assassinCount == 0) { palaceWon = true; winMet = true; }//All Assassin faction dead, Palace wins
+            if (kingCount == 0) { assassinWon = true; winMet = true; }//King is dead, Assassin faction wins
+            else if (assassinCount == 0) { palaceWon = true; winMet = true; }//All Assassin faction dead, Palace wins
         }
 
         public void processTarget(int targIndex)
@@ -595,24 +651,24 @@ namespace DeceptionPalace
             gameObj.hideButtons(); gameObj.btnViewedPrelimResults.Show();
             for (int playerIndex = 0; playerIndex < 9; playerIndex++)
             { //this updates the text in the group box for each player so it displays their votes next to their username
-               gameObj.groupBoxArray[playerIndex].Text = gameObj.groupBoxArray[playerIndex].Text + " - " + arrVotes[playerIndex];
-               arrVotes[playerIndex] = 0;//resets arrVotes after using the final contents
+                gameObj.groupBoxArray[playerIndex].Text = gameObj.groupBoxArray[playerIndex].Text + " - " + arrVotes[playerIndex];
+                arrVotes[playerIndex] = 0;//resets arrVotes after using the final contents
             }
         }
 
         public void executing(int exeTarg)
         {
             //checks if the Sentinel is alive and if the Assassin was executed
-            //if (arrRoles[exeTarg].getRole() == "Assassin" && arrRoles[sentinelIndex].getAlive())
-            //{
-            //    //Switches the roles of the Assassin and Sentinel
-            //    int temp = assassinIndex;
-            //    assassinIndex = sentinelIndex;
-            //    sentinelIndex = temp;
-            //    Role tempRole = arrRoles[sentinelIndex];
-            //    arrRoles[sentinelIndex] = arrRoles[assassinIndex];
-            //    arrRoles[assassinIndex] = tempRole;
-            //}
+            if (arrRoles[exeTarg].getRole() == "Assassin" && arrRoles[sentinelIndex].getAlive())
+            {
+                //Switches the roles of the Assassin and Sentinel
+                int temp = assassinIndex;
+                assassinIndex = sentinelIndex;
+                sentinelIndex = temp;
+                Role tempRole = arrRoles[sentinelIndex];
+                arrRoles[sentinelIndex] = arrRoles[assassinIndex];
+                arrRoles[assassinIndex] = tempRole;
+            }
             //setting role aliveStatus attribute to false to indicate death and update appearance of exeTarg's groupbox
             setAliveStatus(exeTarg, false);
             //death processing and win condition checking
@@ -638,9 +694,14 @@ namespace DeceptionPalace
             }
         }
 
+        //checks if the Jester's won by seeing if they were executed
         public void checkJesterWin(int executedPlayer)
         {
-            winMet = false;//iteration 2: jester isn't in the game yet so this subroutine will never make winMet true
+            if(arrRoles[executedPlayer].getRole() == "Jester") 
+            {
+                jesterWon = true;//indicates that the jester's win condition has been met
+                winMet = true;//indicates that a win condition has been met
+            }
         }
 
         public void gameEnd()
@@ -677,7 +738,7 @@ namespace DeceptionPalace
         //below methods update different parts of the stage indicators:
         public static void updateStageLbl(string newText)//If it's day or night
         {
-                gameObj.stageLabel.Text = newText;
+            gameObj.stageLabel.Text = newText;
         }
         public static void updateStageNum(int newNum)//What number day/night it is
         {
