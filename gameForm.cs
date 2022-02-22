@@ -55,6 +55,7 @@ namespace DeceptionPalace
             btnViewedPrelimResults.Hide();
             btnBeginPrelim.Hide();
             btnViewedSwitchResults.Hide();
+            btnViewedSentinelResults.Hide();
 
             for (int i = 0; i < 9; i++)
             {
@@ -239,6 +240,13 @@ namespace DeceptionPalace
             btnViewedSwitchResults.Hide();//button no longer needed                                                       
             showButtons();//unhides all target buttons
             gamePlayed.night();//proceed to night stage
+        }
+
+        private void btnViewedSentinelResults_Click(object sender, EventArgs e)
+        {
+            btnViewedSentinelResults.Hide();//button no longer needed     
+            showButtons();//unhides all target buttons
+            gamePlayed.day();//proceed to day stage
         }
     }
 }
