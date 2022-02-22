@@ -414,23 +414,59 @@ namespace DeceptionPalace
             bool killTarget = false;//true if the program permits the target to die
             bool kingIsTarg = false;//true if the King is the Assassin's target
             bool onePlusBgAlive = false;//true if there is one or more bodyguard alive
+            bool twoBgAlive = false;//true if there are two bodyguards alive
+            bool blockerTargBg = false;//true if the blocker has a bodyguard as a target
+            bool blockerTargYou = false;//true if the blocker has targeted the assassin
+            bool blockerTargChem = false;//true if the blocker has targeted the chemist
+            bool chemistsTarg = false;//true if the chemist's target is also the assassin's
 
             if (targetIndex == kingIndex) { kingIsTarg = true; }//compares targetIndex with the King's index
+            if(targetIndex == targets[chemistIndex]) { chemistsTarg = true; }//compares chemist's target with targetIndex
 
             //below if statement looks at both bodyguards and their 'availability'
             if (arrRoles[bg1Index].getAlive() || (bg2Index < 9 && arrRoles[bg2Index].getAlive()))
             {
                 onePlusBgAlive = true;
             }
+            //below if statement looks to see if both bodyguards are alive and in play
+            if (bg2Index < 9 && arrRoles[bg1Index].getAlive() && arrRoles[bg2Index].getAlive()){
+                twoBgAlive = true;
+            }
+            
+            int c = targets[blockerIndex];//holds blocker's target, used for comparison in switch statement
+            //switch statement below looks at the blocker's target and look to set one of the blocker booleans to true
+            switch(c){
+                case bg1Index://blocker's target is the first bodyguard
+                    blockerTargBg = true;
+                    break;
+                case bg2Index://blocker's target is the second bodyguard
+                    blockerTargBg = true;
+                    break;
+                case chemistIndex://blocker's target is the chemist
+                    blockerTargChem = true;
+                    break;
+                case assassinIndex://blocker's target is the assassin
+                    blockerTargYou = true;
+                    break;
+                default://blocker's target is not a boydguard, chemist or assassin
+                    break;//no blocker boolean is set to true
+            }
 
-            if (!kingIsTarg)//Assassin's target isn't the King
+            if (chemistsTarg)//chemist's target is healed?
             {
-                killTarget = true;//because nothing can stop you assassin if their target
-                                    //if their target isn't the King in iteration 2
-            }else if (!onePlusBgAlive)//Assassin's target is the King and there are no alive bodyguards
-            {
-                killTarget = true;//because you’re targeting the King but
-                                  //he has no bodyguards alive
+               if(blockerTargChem){//chemist's target isn't healed
+                    if(!kingIsTarg){//no bodyguards will save the target
+                        killTarget = true;//nothing to prevent target from dying
+                    }else if(!onePlusBgAlive){//no bodyguards alive 
+                        killTarget = true//no bodyguard alive to save the King
+                    }
+               }
+            }else if(!blockerTargYou){//assassin isn't the target of the blocker
+                if(!kingIsTarg){//king isn' the target, no bodyguards to save target
+                    killTarget = true;//since nothing to prevent target from dying
+                }else if(!twoBgAlive && !(blockerTargBg ^ onePlusBgAlive)){//one blocked bodyguard or no bodyguard alive
+                    killTarget = true;//since none of the King's bodyguards can save them
+                }
             }
 
             if (killTarget)//program permits the assassin's target to die
