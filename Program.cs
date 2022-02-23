@@ -148,6 +148,12 @@ namespace DeceptionPalace
         public string getPlayer(int playerIndex) { return arrPlayers[playerIndex]; }
         //above method returns the username of the player at index playerIndex
 
+        //below method sets the name of the player in index playerIndex
+        public void setPlayer(int playerIndex, string newName)
+        {
+            arrPlayers[playerIndex] = newName;
+        }
+
         public Game(string callingUser, string callingCode)
         {
             hostUser = callingUser;//useful in iteration 4 onwards
@@ -544,7 +550,8 @@ namespace DeceptionPalace
             checkWinConditions();//updates winMet to true if any win condition has been met
             if (!winMet)
             {//validates that no win conditions have been met so the game should continue
-                updateEventText("Please discuss your theories, and begin inputing people's preliminary votes for execution when you're ready.");
+                updateEventText("Please discuss your theories, and begin inputing people's preliminary votes " + 
+                    "for execution when you're ready. (Note to host, please begin sharing your screen again.)");
                 gameObj.hideButtons();//force valid inputs by removing all invalid inputs at this point
                 gameObj.btnBeginPrelim.Show();//show the only valid input for this point in the game
                 playerCounter = aliveList[0];//the first alive player in the game
@@ -677,7 +684,8 @@ namespace DeceptionPalace
             checkJesterWin(exeTarg);
             checkWinConditions();
             //output execution
-            updateEventText(arrPlayers[exeTarg] + " was executed.");
+            updateEventText(arrPlayers[exeTarg] + " was executed." + 
+                " Please announce who was executed to the players.");
             //check whether to continue game or not
             if (winMet)
             {
@@ -709,7 +717,7 @@ namespace DeceptionPalace
             //converts the winning faction boolean into a string which can be referenced in a more modular way
             identifyWinningFac();
 
-            updateEventText("The " + facWon + " wins!");
+            updateEventText("The " + facWon + " wins! Share your screen to the players again.");
 
             for (int playerIndex = 0; playerIndex < 9; playerIndex++)
             { //this updates the text in the group box for each player so it displays their role next to their username
