@@ -19,6 +19,10 @@ namespace DeceptionPalace
 
         private void mainGameForm_Load(object sender, EventArgs e)
         {
+            //initialising usernameCounter
+            usernameCounter = 0;
+            //sets reference of gameObj in the Game class to this form as 'this' refers to the current object
+            gamePlayed.setForm(this);
             //initialising the contents of groupBoxArray to be referenced using player indexes
             groupBoxArray[0] = boxPlayer1;
             groupBoxArray[1] = boxPlayer2;
@@ -51,34 +55,15 @@ namespace DeceptionPalace
             buttonArray[8] = btnToTarget9;
             //hide the initially hidden buttons since they might disrupt kingSpecialAbility:
             hideButtons();
+            setPreGameBtnsHidden();
             btnViewedKingsChoice.Hide();
             btnViewedPrelimResults.Hide();
             btnBeginPrelim.Hide();
             btnViewedSwitchResults.Hide();
             btnViewedSentinelResults.Hide();
-
-            for (int i = 0; i < 9; i++)
-            {
-                groupBoxArray[i].Text = gamePlayed.getPlayer(i);//initialising the display of each player's username
-                picBoxArray[i].Image = gamePlayed.getSprite(i, gamePlayed.getALIVEINDEX());//initialising each player's sprite
-            }
-
-            //below is test code in order to output the states of 'invisible' variables (arrRoles)
-            MessageBox.Show("1: " + gamePlayed.getPlayer(0) + ": " + gamePlayed.getRole(0) + " " + gamePlayed.getFac(0) + " " + gamePlayed.getAliveStatus(0));
-            MessageBox.Show("2: " + gamePlayed.getPlayer(1) + ": " + gamePlayed.getRole(1) + " " + gamePlayed.getFac(1) + " " + gamePlayed.getAliveStatus(1));
-            MessageBox.Show("3: " + gamePlayed.getPlayer(2) + ": " + gamePlayed.getRole(2) + " " + gamePlayed.getFac(2) + " " + gamePlayed.getAliveStatus(2));
-            MessageBox.Show("4: " + gamePlayed.getPlayer(3) + ": " + gamePlayed.getRole(3) + " " + gamePlayed.getFac(3) + " " + gamePlayed.getAliveStatus(3));
-            MessageBox.Show("5: " + gamePlayed.getPlayer(4) + ": " + gamePlayed.getRole(4) + " " + gamePlayed.getFac(4) + " " + gamePlayed.getAliveStatus(4));
-            MessageBox.Show("6: " + gamePlayed.getPlayer(5) + ": " + gamePlayed.getRole(5) + " " + gamePlayed.getFac(5) + " " + gamePlayed.getAliveStatus(5));
-            MessageBox.Show("7: " + gamePlayed.getPlayer(6) + ": " + gamePlayed.getRole(6) + " " + gamePlayed.getFac(6) + " " + gamePlayed.getAliveStatus(6));
-            MessageBox.Show("8: " + gamePlayed.getPlayer(7) + ": " + gamePlayed.getRole(7) + " " + gamePlayed.getFac(7) + " " + gamePlayed.getAliveStatus(7));
-            MessageBox.Show("9: " + gamePlayed.getPlayer(8) + ": " + gamePlayed.getRole(8) + " " + gamePlayed.getFac(8) + " " + gamePlayed.getAliveStatus(8));
-            MessageBox.Show("10: " + gamePlayed.getPlayer(9) + ": " + gamePlayed.getRole(9) + " " + gamePlayed.getFac(9) + " " + gamePlayed.getAliveStatus(9));
-            MessageBox.Show("11: " + gamePlayed.getPlayer(10) + ": " + gamePlayed.getRole(10) + " " + gamePlayed.getFac(10) + " " + gamePlayed.getAliveStatus(10));
-            MessageBox.Show("12: " + gamePlayed.getPlayer(11) + ": " + gamePlayed.getRole(11) + " " + gamePlayed.getFac(11) + " " + gamePlayed.getAliveStatus(11));
-
-            gamePlayed.setForm(this);//sets reference of gameObj in the Game class to this form as 'this' refers to the current object
-            gamePlayed.gameloop();//initialises the processing of the game itself
+            //instructions for player username input
+            eventTextbox.Text = "Please input player 1's username.";
+            
         }
 
         //unhides all the target buttons of alive players
@@ -228,7 +213,7 @@ namespace DeceptionPalace
             showButtons();//unhides the target buttons now that they are valid inputs
             //outputs instructions to eventTextbox
             eventTextbox.Text = "You are " + gamePlayed.getPlayer(gamePlayed.getPlayerCounter()) +
-                ", who do you want to vote for?";
+                ", who do you want to vote for? (Note to host, stop screensharing until the next day.";
         }
 
         private void btnViewedSwitchResults_Click(object sender, EventArgs e)
@@ -247,6 +232,52 @@ namespace DeceptionPalace
             btnViewedSentinelResults.Hide();//button no longer needed     
             showButtons();//unhides all target buttons
             gamePlayed.day();//proceed to day stage
+        }
+
+        private void btnEnteredName_Click(object sender, EventArgs e)
+        {   //validates that input usernames are the right length, since the groupbox texts
+            //should not stick out to the right of the groupbox
+            if (enterUsernamesHere.Text.Length < 3 || enterUsernamesHere.Text.Length > 16) 
+            {
+                eventTextbox.Text = "Names must be between 3 and 16 characters long.";
+            }
+            else
+            {   //username is set by the program
+                gamePlayed.setPlayer(usernameCounter, enterUsernamesHere.Text);
+                usernameCounter++;//next username
+                enterUsernamesHere.Text = "";//resets the contents of the textbox
+                if(usernameCounter == 9)
+                {   //hiding the elements no longer needed that would obscure vision of other elements
+                    enterUsernamesHere.Hide();btnEnteredName.Hide();
+                    //show the elements that are now needed
+                    btn1stRole.Show();btn2ndRole.Show();btn3rdRole.Show();
+                    //for loop initialises two parts of each player's group box
+                    for (int i = 0; i < 9; i++)
+                    {
+                        groupBoxArray[i].Text = gamePlayed.getPlayer(i);//initialising the display of each player's username
+                        picBoxArray[i].Image = gamePlayed.getSprite(i, gamePlayed.getALIVEINDEX());//initialising each player's sprite
+                    }
+
+                    //below is test code in order to output the states of 'invisible' variables (arrRoles)
+                    MessageBox.Show("1: " + gamePlayed.getPlayer(0) + ": " + gamePlayed.getRole(0) + " " + gamePlayed.getFac(0) + " " + gamePlayed.getAliveStatus(0));
+                    MessageBox.Show("2: " + gamePlayed.getPlayer(1) + ": " + gamePlayed.getRole(1) + " " + gamePlayed.getFac(1) + " " + gamePlayed.getAliveStatus(1));
+                    MessageBox.Show("3: " + gamePlayed.getPlayer(2) + ": " + gamePlayed.getRole(2) + " " + gamePlayed.getFac(2) + " " + gamePlayed.getAliveStatus(2));
+                    MessageBox.Show("4: " + gamePlayed.getPlayer(3) + ": " + gamePlayed.getRole(3) + " " + gamePlayed.getFac(3) + " " + gamePlayed.getAliveStatus(3));
+                    MessageBox.Show("5: " + gamePlayed.getPlayer(4) + ": " + gamePlayed.getRole(4) + " " + gamePlayed.getFac(4) + " " + gamePlayed.getAliveStatus(4));
+                    MessageBox.Show("6: " + gamePlayed.getPlayer(5) + ": " + gamePlayed.getRole(5) + " " + gamePlayed.getFac(5) + " " + gamePlayed.getAliveStatus(5));
+                    MessageBox.Show("7: " + gamePlayed.getPlayer(6) + ": " + gamePlayed.getRole(6) + " " + gamePlayed.getFac(6) + " " + gamePlayed.getAliveStatus(6));
+                    MessageBox.Show("8: " + gamePlayed.getPlayer(7) + ": " + gamePlayed.getRole(7) + " " + gamePlayed.getFac(7) + " " + gamePlayed.getAliveStatus(7));
+                    MessageBox.Show("9: " + gamePlayed.getPlayer(8) + ": " + gamePlayed.getRole(8) + " " + gamePlayed.getFac(8) + " " + gamePlayed.getAliveStatus(8));
+                    MessageBox.Show("10: " + gamePlayed.getPlayer(9) + ": " + gamePlayed.getRole(9) + " " + gamePlayed.getFac(9) + " " + gamePlayed.getAliveStatus(9));
+                    MessageBox.Show("11: " + gamePlayed.getPlayer(10) + ": " + gamePlayed.getRole(10) + " " + gamePlayed.getFac(10) + " " + gamePlayed.getAliveStatus(10));
+                    MessageBox.Show("12: " + gamePlayed.getPlayer(11) + ": " + gamePlayed.getRole(11) + " " + gamePlayed.getFac(11) + " " + gamePlayed.getAliveStatus(11));
+                    gamePlayed.gameloop();//initialises the processing of the game itself
+                }
+                else
+                {   //instructions for next input
+                    eventTextbox.Text = "Please input player " + (usernameCounter+1) + "'s username.";
+                }
+            }
         }
     }
 }
