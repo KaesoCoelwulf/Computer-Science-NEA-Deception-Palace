@@ -82,6 +82,8 @@ namespace DeceptionPalace
             this.btnBeginPrelim = new System.Windows.Forms.Button();
             this.btnViewedSwitchResults = new System.Windows.Forms.Button();
             this.btnViewedSentinelResults = new System.Windows.Forms.Button();
+            this.enterUsernamesHere = new System.Windows.Forms.TextBox();
+            this.btnEnteredName = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.boxPlayer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerSprite1)).BeginInit();
@@ -128,7 +130,7 @@ namespace DeceptionPalace
             this.btnToTarget1.Name = "btnToTarget1";
             this.btnToTarget1.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget1.TabIndex = 1;
-            this.btnToTarget1.Text = "Use Ability ";
+            this.btnToTarget1.Text = "Target";
             this.btnToTarget1.UseVisualStyleBackColor = false;
             this.btnToTarget1.Click += new System.EventHandler(this.btnToTarget1_Click);
             // 
@@ -160,7 +162,7 @@ namespace DeceptionPalace
             this.btnToTarget2.Name = "btnToTarget2";
             this.btnToTarget2.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget2.TabIndex = 1;
-            this.btnToTarget2.Text = "Use Ability ";
+            this.btnToTarget2.Text = "Target";
             this.btnToTarget2.UseVisualStyleBackColor = false;
             this.btnToTarget2.Click += new System.EventHandler(this.btnToTarget2_Click);
             // 
@@ -192,7 +194,7 @@ namespace DeceptionPalace
             this.btnToTarget3.Name = "btnToTarget3";
             this.btnToTarget3.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget3.TabIndex = 1;
-            this.btnToTarget3.Text = "Use Ability ";
+            this.btnToTarget3.Text = "Target";
             this.btnToTarget3.UseVisualStyleBackColor = false;
             this.btnToTarget3.Click += new System.EventHandler(this.btnToTarget3_Click);
             // 
@@ -224,7 +226,7 @@ namespace DeceptionPalace
             this.btnToTarget6.Name = "btnToTarget6";
             this.btnToTarget6.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget6.TabIndex = 1;
-            this.btnToTarget6.Text = "Use Ability ";
+            this.btnToTarget6.Text = "Target";
             this.btnToTarget6.UseVisualStyleBackColor = false;
             this.btnToTarget6.Click += new System.EventHandler(this.btnToTarget6_Click);
             // 
@@ -256,7 +258,7 @@ namespace DeceptionPalace
             this.btnToTarget5.Name = "btnToTarget5";
             this.btnToTarget5.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget5.TabIndex = 1;
-            this.btnToTarget5.Text = "Use Ability ";
+            this.btnToTarget5.Text = "Target";
             this.btnToTarget5.UseVisualStyleBackColor = false;
             this.btnToTarget5.Click += new System.EventHandler(this.btnToTarget5_Click);
             // 
@@ -288,7 +290,7 @@ namespace DeceptionPalace
             this.btnToTarget4.Name = "btnToTarget4";
             this.btnToTarget4.Size = new System.Drawing.Size(151, 23);
             this.btnToTarget4.TabIndex = 1;
-            this.btnToTarget4.Text = "Use Ability ";
+            this.btnToTarget4.Text = "Target";
             this.btnToTarget4.UseVisualStyleBackColor = false;
             this.btnToTarget4.Click += new System.EventHandler(this.btnToTarget4_Click);
             // 
@@ -320,7 +322,7 @@ namespace DeceptionPalace
             this.btnToTarget9.Name = "btnToTarget9";
             this.btnToTarget9.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget9.TabIndex = 1;
-            this.btnToTarget9.Text = "Use Ability ";
+            this.btnToTarget9.Text = "Target";
             this.btnToTarget9.UseVisualStyleBackColor = false;
             this.btnToTarget9.Click += new System.EventHandler(this.btnToTarget9_Click);
             // 
@@ -352,7 +354,7 @@ namespace DeceptionPalace
             this.btnToTarget8.Name = "btnToTarget8";
             this.btnToTarget8.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget8.TabIndex = 1;
-            this.btnToTarget8.Text = "Use Ability ";
+            this.btnToTarget8.Text = "Target";
             this.btnToTarget8.UseVisualStyleBackColor = false;
             this.btnToTarget8.Click += new System.EventHandler(this.btnToTarget8_Click);
             // 
@@ -384,7 +386,7 @@ namespace DeceptionPalace
             this.btnToTarget7.Name = "btnToTarget7";
             this.btnToTarget7.Size = new System.Drawing.Size(150, 23);
             this.btnToTarget7.TabIndex = 1;
-            this.btnToTarget7.Text = "Use Ability ";
+            this.btnToTarget7.Text = "Target";
             this.btnToTarget7.UseVisualStyleBackColor = false;
             this.btnToTarget7.Click += new System.EventHandler(this.btnToTarget7_Click);
             // 
@@ -527,12 +529,31 @@ namespace DeceptionPalace
             this.btnViewedSentinelResults.UseVisualStyleBackColor = true;
             this.btnViewedSentinelResults.Click += new System.EventHandler(this.btnViewedSentinelResults_Click);
             // 
+            // enterUsernamesHere
+            // 
+            this.enterUsernamesHere.Location = new System.Drawing.Point(132, 198);
+            this.enterUsernamesHere.Name = "enterUsernamesHere";
+            this.enterUsernamesHere.Size = new System.Drawing.Size(100, 20);
+            this.enterUsernamesHere.TabIndex = 19;
+            // 
+            // btnEnteredName
+            // 
+            this.btnEnteredName.Location = new System.Drawing.Point(132, 230);
+            this.btnEnteredName.Name = "btnEnteredName";
+            this.btnEnteredName.Size = new System.Drawing.Size(100, 23);
+            this.btnEnteredName.TabIndex = 20;
+            this.btnEnteredName.Text = "Enter Name";
+            this.btnEnteredName.UseVisualStyleBackColor = true;
+            this.btnEnteredName.Click += new System.EventHandler(this.btnEnteredName_Click);
+            // 
             // mainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(874, 617);
+            this.Controls.Add(this.btnEnteredName);
+            this.Controls.Add(this.enterUsernamesHere);
             this.Controls.Add(this.btnViewedSentinelResults);
             this.Controls.Add(this.btnViewedSwitchResults);
             this.Controls.Add(this.btnBeginPrelim);
@@ -631,5 +652,9 @@ namespace DeceptionPalace
         private Game gamePlayed = new Game("Filler Host", "Filler Code");//iteration 1&2 instance of Game that is initialised immediately
         private Button btnViewedSwitchResults;
         public Button btnViewedSentinelResults;
+        private Button btnEnteredName;
+        private TextBox enterUsernamesHere;
+        //below integer holds how many usernames have been input
+        private int usernameCounter;
     }
 }
