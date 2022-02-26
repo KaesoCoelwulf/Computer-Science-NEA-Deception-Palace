@@ -99,6 +99,19 @@ namespace DeceptionPalace
             btn3rdRole.Hide();
         }
 
+        //sets the visibility of the King's target button
+        public void setKingBtnVisible(bool visible)
+        {
+            if (visible)
+            {   //shows the button if true is passed in
+                buttonArray[gamePlayed.getKingIndex()].Show();
+            }
+            else
+            {   //hides the button if false is passed in
+                buttonArray[gamePlayed.getKingIndex()].Hide();
+            }
+        }
+
         //unhides btnViewedKingsChoice
         public void showBtnViewedKingsChoice()
         {
@@ -201,6 +214,7 @@ namespace DeceptionPalace
                 ". Who do you want to execute?";
             //unhide all the buttons now that they are valid inputs
             showButtons();
+            setKingBtnVisible(false);//King cannot be executed without his button
             for(int playerIndex = 0; playerIndex < 9; playerIndex++)
             {   //resets the text in the groupbox for each player (i.e. removes their vote)
                 groupBoxArray[playerIndex].Text = gamePlayed.getPlayer(playerIndex);
@@ -279,5 +293,6 @@ namespace DeceptionPalace
                 }
             }
         }
+
     }
 }
