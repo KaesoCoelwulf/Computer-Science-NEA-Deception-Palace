@@ -84,6 +84,7 @@ namespace DeceptionPalace
             this.btnViewedSentinelResults = new System.Windows.Forms.Button();
             this.enterUsernamesHere = new System.Windows.Forms.TextBox();
             this.btnEnteredName = new System.Windows.Forms.Button();
+            this.nonNecessaryRolesTextbox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.boxPlayer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerSprite1)).BeginInit();
@@ -418,16 +419,15 @@ namespace DeceptionPalace
             // 
             // stageLabel
             // 
-            this.stageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stageLabel.AutoSize = true;
             this.stageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stageLabel.Location = new System.Drawing.Point(146, 17);
+            this.stageLabel.Location = new System.Drawing.Point(144, 17);
             this.stageLabel.Name = "stageLabel";
-            this.stageLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.stageLabel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.stageLabel.Size = new System.Drawing.Size(70, 29);
             this.stageLabel.TabIndex = 8;
             this.stageLabel.Text = "Night";
-            this.stageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.stageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // stageNumLabel
             // 
@@ -441,11 +441,10 @@ namespace DeceptionPalace
             // 
             // stageIcon
             // 
-            this.stageIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.stageIcon.Image = global::DeceptionPalace.Properties.Resources.nightIcon;
             this.stageIcon.Location = new System.Drawing.Point(172, 50);
             this.stageIcon.Name = "stageIcon";
-            this.stageIcon.Size = new System.Drawing.Size(38, 29);
+            this.stageIcon.Size = new System.Drawing.Size(27, 29);
             this.stageIcon.TabIndex = 10;
             this.stageIcon.TabStop = false;
             // 
@@ -546,12 +545,22 @@ namespace DeceptionPalace
             this.btnEnteredName.UseVisualStyleBackColor = true;
             this.btnEnteredName.Click += new System.EventHandler(this.btnEnteredName_Click);
             // 
+            // nonNecessaryRolesTextbox
+            // 
+            this.nonNecessaryRolesTextbox.Location = new System.Drawing.Point(876, 17);
+            this.nonNecessaryRolesTextbox.Name = "nonNecessaryRolesTextbox";
+            this.nonNecessaryRolesTextbox.ReadOnly = true;
+            this.nonNecessaryRolesTextbox.Size = new System.Drawing.Size(199, 586);
+            this.nonNecessaryRolesTextbox.TabIndex = 21;
+            this.nonNecessaryRolesTextbox.Text = resources.GetString("nonNecessaryRolesTextbox.Text");
+            // 
             // mainGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(874, 617);
+            this.ClientSize = new System.Drawing.Size(1087, 617);
+            this.Controls.Add(this.nonNecessaryRolesTextbox);
             this.Controls.Add(this.btnEnteredName);
             this.Controls.Add(this.enterUsernamesHere);
             this.Controls.Add(this.btnViewedSentinelResults);
@@ -656,5 +665,6 @@ namespace DeceptionPalace
         private TextBox enterUsernamesHere;
         //below integer holds how many usernames have been input
         private int usernameCounter;
+        private RichTextBox nonNecessaryRolesTextbox;
     }
 }
