@@ -115,6 +115,7 @@ namespace DeceptionPalace
 
         public void setAliveStatus(int setStatusOf, bool isAlive)
         {
+            targets[setStatusOf] = -1;//making sure the dead player never targets a player during future nights
             arrRoles[setStatusOf].setAlive(isAlive);//calls setter in Role to update aliveStatus of specified player
             updateGroupBox(setStatusOf, arrSprites[DEADINDEX, setStatusOf]);//updates the picture box containing the sprite in mainGameForm
             gameObj.buttonArray[setStatusOf].Hide();//hides the button when the player dies
@@ -350,29 +351,29 @@ namespace DeceptionPalace
             switch (arrRoles[indxInt].getRole())
             {//identify which role chosen
                 case "Bodyguard"://chosen role identified as Bodyguard
-                    processSwitch(bg2Index);//multitalent & bodyguard switch
+                    processSwitch(ref bg2Index);//multitalent & bodyguard switch
                     break;
                 case "Villager 1"://chosen role identified as Villager 1
-                    processSwitch(v1Index);//multitalent & villager 1 switch
+                    processSwitch(ref v1Index);//multitalent & villager 1 switch
                     break;
                 case "Villager 2"://chosen role identified as Villager 2
-                    processSwitch(v2Index);//multitalent & villager 2 switch
+                    processSwitch(ref v2Index);//multitalent & villager 2 switch
                     break;
                 case "Villager 3"://chosen role identified as Villager 3
-                    processSwitch(v3Index);//multitalent & villager 3 switch
+                    processSwitch(ref v3Index);//multitalent & villager 3 switch
                     break;
                 case "Chemist"://chosen role identified as the Chemist
-                    processSwitch(chemistIndex);//multitalent & chemist switch
+                    processSwitch(ref chemistIndex);//multitalent & chemist switch
                     break;
                 case "Blocker"://chosen role identified as the Blocker
-                    processSwitch(blockerIndex);//multitalent & blocker switch
+                    processSwitch(ref blockerIndex);//multitalent & blocker switch
                     break;
             }
         }
         //below method processes role switches for multitalentSwitch()
-        public void processSwitch(int switchWith)
+        public void processSwitch(ref int switchWith)
         {   //outputs what the result of multitalentSwitch will be
-            updateEventText("The multitalent has switched places with the" + arrRoles[switchWith].getRole());
+            updateEventText("The multitalent has switched places with the " + arrRoles[switchWith].getRole() + ".");
             //completes the switch
             int temp = multitalentIndex;//temporary variable for lossless switch
             multitalentIndex = switchWith;//multitalentIndex now ‘moved’
@@ -417,7 +418,11 @@ namespace DeceptionPalace
             //taking the Chemist, Blocker and Bodyguard's abilities
             //into account
             assassinAbility(targets[assassinIndex]);
-            sentinelAbility(targets[sentinelIndex]);
+            //only calls sentinel's ability if the sentinel is actually alive
+            if (arrRoles[sentinelIndex].getAlive()) { sentinelAbility(targets[sentinelIndex]); }
+            gameObj.btnViewedSentinelResults.Show();//shows btnViewedSentinelResults. Back in the night() subroutine,
+                                                    //all other visible buttons are hidden, forcing this button to be
+                                                    //pressed, since it is the only valid input at this point in the program
         }
         //below method executes the Assassin's ability based on contextual factors
         public void assassinAbility(int targetIndex)
@@ -486,7 +491,19 @@ namespace DeceptionPalace
             }
 
             if (killTarget)//program permits the assassin's target to die
-            {
+            {   
+                //checks if the Assassin is its own target so knows whether to make Sentinel Assassin or not
+                if(targets[assassinIndex] == assassinIndex)
+                {
+                    //Switches the roles of the Assassin and Sentinel
+                    int temp = assassinIndex;
+                    assassinIndex = sentinelIndex;
+                    sentinelIndex = temp;
+                    Role tempRole = arrRoles[sentinelIndex];
+                    arrRoles[sentinelIndex] = arrRoles[assassinIndex];
+                    arrRoles[assassinIndex] = tempRole;
+                }
+
                 setAliveStatus(targetIndex, false);//indicates that the target dies
                 //update lists
                 deadList.Add(targetIndex);
@@ -503,11 +520,11 @@ namespace DeceptionPalace
                 {
                     visitorsList.Add(arrPlayers[blockerIndex]);
                 }
-                if(targets[assassinIndex] == targetIndex)//assassin visited sentinel's target
+                if(targets[assassinIndex] == targetIndex && targets[blockerIndex] != assassinIndex)//assassin visited sentinel's target
                 {
                     visitorsList.Add(arrPlayers[assassinIndex]);
                 }
-                if(targets[chemistIndex] == targetIndex)//chemist visited sentinel's target
+                if(targets[chemistIndex] == targetIndex && targets[blockerIndex] != chemistIndex)//chemist visited sentinel's target
                 {
                     visitorsList.Add(arrPlayers[chemistIndex]);
                 }
@@ -528,7 +545,7 @@ namespace DeceptionPalace
                     updateEventText("The following players visited " + arrPlayers[targetIndex] + " last night: " + visitorsList[0]);
                     //for loop updates eventTextbox without erasing its contents
                     for (int visitorsContents = 1; visitorsContents < visitorsList.Count(); visitorsContents++) {
-                        updateEventText(gameObj.eventTextbox.Text + ", " + arrPlayers[visitorsContents]);
+                        updateEventText(gameObj.eventTextbox.Text + ", " + visitorsList[visitorsContents]);
                     }
                     //just adds a nice full stop :)
                     updateEventText(gameObj.eventTextbox.Text + ".");
@@ -686,6 +703,8 @@ namespace DeceptionPalace
             //output execution
             updateEventText(arrPlayers[exeTarg] + " was executed." + 
                 " Please announce who was executed to the players.");
+            //show King's button again for night()
+            gameObj.setKingBtnVisible(true);
             //check whether to continue game or not
             if (winMet)
             {
